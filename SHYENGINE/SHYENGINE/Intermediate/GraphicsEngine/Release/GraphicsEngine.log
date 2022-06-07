@@ -1,0 +1,43 @@
+﻿  GraphicsEngine.cpp
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Scene.h(19,1): error C2664: 'void std::vector<std::shared_ptr<Model>,std::allocator<std::shared_ptr<Model>>>::push_back(const _Ty &)': cannot convert argument 1 from 'std::shared_ptr<ModelInstance>' to 'const _Ty &'
+          with
+          [
+              _Ty=std::shared_ptr<Model>
+          ]
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Scene.h(19,1): message : Reason: cannot convert from 'std::shared_ptr<ModelInstance>' to 'const _Ty'
+          with
+          [
+              _Ty=std::shared_ptr<Model>
+          ]
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Scene.h(19,37): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\vector(636,23): message : see declaration of 'std::vector<std::shared_ptr<Model>,std::allocator<std::shared_ptr<Model>>>::push_back'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(40): message : see reference to function template instantiation 'void Scene::AddGameObject<ModelInstance>(std::shared_ptr<ModelInstance>)' being compiled
+  ModelAssetHandler.cpp
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\memory(1624,1): error C2440: '<function-style-cast>': cannot convert from 'const std::shared_ptr<Model>' to 'std::shared_ptr<ModelInstance>'
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\memory(1624,1): message : No constructor could take the source type, or constructor overload resolution was ambiguous
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\ModelAssetHandler.cpp(129): message : see reference to function template instantiation 'std::shared_ptr<ModelInstance> &std::shared_ptr<ModelInstance>::operator =<Model>(const std::shared_ptr<Model> &) noexcept' being compiled
+C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\GraphicsEngine\ModelAssetHandler.cpp(129): message : see reference to function template instantiation 'std::shared_ptr<ModelInstance> &std::shared_ptr<ModelInstance>::operator =<Model>(const std::shared_ptr<Model> &) noexcept' being compiled
