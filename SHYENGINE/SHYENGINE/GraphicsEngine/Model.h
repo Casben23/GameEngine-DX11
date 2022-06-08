@@ -3,6 +3,7 @@
 #include "DX11.h"
 #include <vector>
 #include "SceneObject.h"
+#include "Skeleton.hpp"
 
 class Material;
 
@@ -17,6 +18,9 @@ struct Vertex
 		{0,0,0,0},
 		{0,0,0,0}
 	};
+	
+	CommonUtilities::Vector4<unsigned int> myBoneIDs = { 0,0,0,0 };
+	CommonUtilities::Vector4<float> myBoneWeights = { 0,0,0,0 };
 };
 
 
@@ -42,12 +46,18 @@ public:
 	};
 
 	bool Init(std::vector<MeshData> aMeshData, const char* aPath);
+	bool Init(std::vector<MeshData> aMeshData, const char* aPath, Skeleton& aSkeleton);
+	void AddAnimation(Animation aAnimation) { mySkeleton.myAnimations.insert({ aAnimation.myName, aAnimation }); }
 	
+	FORCEINLINE const Skeleton* GetSkeleton() const { return &mySkeleton; }
 	FORCEINLINE MeshData const& GetMeshData(unsigned int anIndex) const { return myMeshData[anIndex]; }
 	FORCEINLINE size_t const GetNumMeshes() { return myMeshData.size(); }
 	FORCEINLINE std::wstring const& GetName() const { return myName; }
 
 private:
+	
+	Skeleton mySkeleton;
+
 	std::vector<MeshData> myMeshData;
 	std::wstring myPath;
 	std::wstring myName;

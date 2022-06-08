@@ -1,6 +1,10 @@
 #include "GraphicsEngine.pch.h"
 #include "Timer.h"
-CommonUtilities::Timer::Timer()
+std::chrono::high_resolution_clock::time_point Timer::myTimeSinceLastUpdate;
+std::chrono::high_resolution_clock::time_point Timer::myStartTime;
+std::chrono::duration<double> Timer::myTotalTime;
+std::chrono::duration<float> Timer::myDeltaTime;
+Timer::Timer()
 {
 	myStartTime = std::chrono::high_resolution_clock::now();
 	myDeltaTime = std::chrono::seconds(0);
@@ -8,7 +12,7 @@ CommonUtilities::Timer::Timer()
 	myTimeSinceLastUpdate = std::chrono::high_resolution_clock::now();
 }
 
-void CommonUtilities::Timer::Update()
+void Timer::Update()
 {
 	std::chrono::high_resolution_clock::time_point currentTime = std::chrono::high_resolution_clock::now();
 	myTotalTime = currentTime - myStartTime;
@@ -16,12 +20,12 @@ void CommonUtilities::Timer::Update()
 	myTimeSinceLastUpdate = currentTime;
 }
 
-float CommonUtilities::Timer::GetDeltaTime() const
+float Timer::GetDeltaTime()
 {
 	return myDeltaTime.count();
 }
 
-double CommonUtilities::Timer::GetTotalTime() const
+double Timer::GetTotalTime()
 {
 	return myTotalTime.count();
 }

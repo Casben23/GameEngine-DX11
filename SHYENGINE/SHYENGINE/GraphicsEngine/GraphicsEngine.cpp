@@ -1,6 +1,7 @@
 #include "GraphicsEngine.pch.h"
 #include "GraphicsEngine.h"
 #include "InputHandler.h"
+#include "Timer.h"
 
 bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	unsigned someWidth, unsigned someHeight,
@@ -79,7 +80,7 @@ void GraphicsEngine::BeginFrame()
 {
 	// F1 - This is where we clear our buffers and start the DX frame.
 	// ex: myFramework.BeginFrame({1, 0.5f, 0, 1});
-	myFramework.BeginFrame({ 0.3f,0.5f,0.3f,1 });
+	myFramework.BeginFrame({ 0.1f,0.1f,0.1f,1 });
 }
 
 void GraphicsEngine::RenderFrame()
@@ -90,13 +91,14 @@ void GraphicsEngine::RenderFrame()
 		const std::shared_ptr<Camera> camera = myScene->GetMainCamera();
 		const std::vector<std::shared_ptr<ModelInstance>> modelToRender = myScene->GetSceneObjects();
 		myForwardRenderer.Render(camera, modelToRender);
-		InputHandler::UpdateInput();
 	}
 }
 
 void GraphicsEngine::Update()
 {
 	myCamera->Update();
+	InputHandler::UpdateInput();
+	Timer::Update();
 }
 
 void GraphicsEngine::EndFrame()

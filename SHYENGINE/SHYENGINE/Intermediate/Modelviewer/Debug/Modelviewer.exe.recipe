@@ -2,15 +2,15 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\Bin\Debug\Modelviewer.exe</FullPath>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine\SHYENGINE\SHYENGINE\Bin\Debug\Modelviewer.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\Bin\Debug\PixelShader.cso</FullPath>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine\SHYENGINE\SHYENGINE\Bin\Debug\PixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\casper.bengtsson3\Desktop\SHYENGINE\SHYENGINE\Bin\Debug\VertexShader.cso</FullPath>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine\SHYENGINE\SHYENGINE\Bin\Debug\VertexShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

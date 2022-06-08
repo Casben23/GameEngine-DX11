@@ -77,17 +77,17 @@ void Camera::Move()
 
 	if (InputHandler::IsKeyPressed(VK_SHIFT))
 	{
-		mySpeed = 20;
+		mySpeed = 60;
 	}
 	else
 	{
-		mySpeed = 10;
+		mySpeed = 30;
 	}
 }
 
 void Camera::LookAround()
 {
-	if (InputHandler::IsKeyPressed(eKeyCode::RMB))
+	if (InputHandler::IsKeyPressed(eKeyCode::MMB))
 	{
 		Vector3f mouseDelta = { static_cast<float>(InputHandler::GetDeltaMousePosition().y), static_cast<float>(InputHandler::GetDeltaMousePosition().x), 0 };
 		myRotation += mouseDelta * myLookSensentivity * 0.1f;

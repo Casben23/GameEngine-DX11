@@ -1,9 +1,7 @@
 #pragma once
 #include "Vector4.hpp"
 #include <array>
-
-
-
+#include "DX11.h"
 namespace CommonUtilities
 {
 	template<class T>

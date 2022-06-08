@@ -138,10 +138,29 @@ bool ModelAssetHandler::LoadModel(const char* someFilePath) const
 	const std::string ansiFileName = someFilePath;
 
 	TGA::FBXModel tgaModel;
+	
 	if (TGA::FBXImporter::LoadModel(ansiFileName, tgaModel))
 	{
 		std::vector<Model::MeshData> mdlMeshData;
 		mdlMeshData.resize(tgaModel.Meshes.size());
+
+		Skeleton mdlSkeleton;
+		const bool hasSkeleton = tgaModel.Skeleton.GetRoot();
+
+		if (hasSkeleton)
+		{
+			for (size_t amount = 0; amount < tgaModel.Skeleton.Bones.size(); amount++)
+			{
+				Skeleton::Bone bone;
+
+				bone.myBindPoseInverse = tgaModel.Skeleton.Bones[amount].BindPoseInverse; 
+				bone.myChildren[amount] = tgaModel.Skeleton.Bones[amount].Children[amount];
+				bone.myParent = tgaModel.Skeleton.Bones[amount].Parent;
+				bone.myName = tgaModel.Skeleton.Bones[amount].Name;
+				
+				mdlSkeleton.myBones.push_back(bone);
+			}
+		}
 
 		for (size_t i = 0; i < tgaModel.Meshes.size(); i++)
 		{
@@ -174,6 +193,23 @@ bool ModelAssetHandler::LoadModel(const char* someFilePath) const
 			for (size_t v = 0; v < mesh.Vertices.size(); v++)
 			{
 				Vertex vertex;
+
+				if (hasSkeleton)
+				{
+					mdlVertices[v].myBoneIDs = {
+						mesh.Vertices[v].BoneIDs[0],
+						mesh.Vertices[v].BoneIDs[1],
+						mesh.Vertices[v].BoneIDs[2],
+						mesh.Vertices[v].BoneIDs[3]
+					};
+
+					mdlVertices[v].myBoneWeights = {
+						mesh.Vertices[v].BoneWeights[0],
+						mesh.Vertices[v].BoneWeights[1],
+						mesh.Vertices[v].BoneWeights[2],
+						mesh.Vertices[v].BoneWeights[3]
+					};
+				}
 
 				vertex.myPosition.x = mesh.Vertices[v].Position[0];
 				vertex.myPosition.y = mesh.Vertices[v].Position[1];
@@ -260,7 +296,8 @@ bool ModelAssetHandler::LoadModel(const char* someFilePath) const
 				{ "COLOR", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{ "COLOR", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{ "COLOR", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				
+				{ "BONEIDS", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 			};
 
 			ID3D11InputLayout* inputLayout;
@@ -283,7 +320,33 @@ bool ModelAssetHandler::LoadModel(const char* someFilePath) const
 			mdlMeshData[i] = modelData;
 		}
 		std::shared_ptr<Model> model = std::make_shared<Model>();
-		model->Init(mdlMeshData, someFilePath);
+		
+		if (hasSkeleton)
+		{
+			model->Init(mdlMeshData, someFilePath, mdlSkeleton);
+		}
+		else
+		{
+			model->Init(mdlMeshData, someFilePath);
+		}
+		
+		TGA::FBXAnimation tgaAnimation;
+
+		if (TGA::FBXImporter::LoadAnimation(ansiFileName, model->GetSkeleton()->myBoneName, tgaAnimation))
+		{
+			Animation result;
+
+			result.myDuration = tgaAnimation.Duration;
+			result.myFramesPerSecond = tgaAnimation.FramesPerSecond;
+			result.myLength = tgaAnimation.Length;
+			result.myName = std::wstring(tgaAnimation.Name.begin(), tgaAnimation.Name.end());
+
+			for (size_t f = 0; f < result.myFrames.size(); f++)
+			{
+				result.myFrames[f].myLocalTransforms = tgaAnimation.Frames[f].LocalTransforms;
+			}
+			model->AddAnimation(result);
+		}
 		myModelRegistry.insert({ someFilePath, model });
 		return true;
 	}

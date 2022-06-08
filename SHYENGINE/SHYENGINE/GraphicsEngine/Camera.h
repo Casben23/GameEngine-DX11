@@ -12,7 +12,7 @@ class Camera : public SceneObject
 
 private:
 
-	float mySpeed = 10;
+	float mySpeed = 20;
 	float myLookSensentivity = 0.01f;
 
 public: 

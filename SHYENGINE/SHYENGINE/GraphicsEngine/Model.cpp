@@ -7,3 +7,10 @@ bool Model::Init(std::vector<MeshData> aMeshData, const char* aPath)
 
 	return true;
 }
+
+bool Model::Init(std::vector<MeshData> aMeshData, const char* aPath, Skeleton& aSkeleton)
+{
+	myMeshData = aMeshData;
+	mySkeleton = aSkeleton;
+	return false;
+}
