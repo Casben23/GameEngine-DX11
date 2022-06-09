@@ -24,7 +24,8 @@ bool DX11::Initialize(HWND aWindowHandle, bool enableDeviceDebug)
 	HRESULT result;
 
 	DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
-	swapChainDesc.BufferCount = 1;
+	//swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	swapChainDesc.BufferCount = 2;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.OutputWindow = aWindowHandle;
@@ -126,6 +127,7 @@ void DX11::BeginFrame(std::array<float, 4> aClearColor)
 {
 	myContext->ClearRenderTargetView(myBackBuffer.Get(), &aClearColor[0]);
 	myContext->ClearDepthStencilView(myDepthBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	
 }
 
 void DX11::EndFrame()

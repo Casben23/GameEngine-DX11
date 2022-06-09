@@ -6,7 +6,8 @@ void ModelInstance::Init(std::shared_ptr<Model> aModel)
 	myModel = aModel;
 	if (myModel->GetSkeleton()->GetRoot())
 	{
-		myCurrentAnimation = myModel->GetSkeleton()->myAnimations.at(std::wstring(myModel->GetSkeleton()->myName.begin(), myModel->GetSkeleton()->myName.end()));
+		myCurrentAnimation = myModel->GetSkeleton()->myAnimations.at(myModel->GetSkeleton()->myAnimations.begin()->first);
+		myCurrentAnimation.myCurrentFrame = 1;
 		myCurrentAnimation.myAnimationState = Animation::AnimationState::Playing;
 	}
 	else
@@ -15,14 +16,14 @@ void ModelInstance::Init(std::shared_ptr<Model> aModel)
 	}
 }
 
-void ModelInstance::Update(float aDeltaTime) 
+void ModelInstance::Update() 
 {
 	if (myCurrentAnimation.myAnimationState == Animation::AnimationState::Playing)
 	{
 		float frameTime = 1.f / myCurrentAnimation.myFramesPerSecond;
 		myTimer += Timer::GetDeltaTime();
 
-		if (Timer::GetDeltaTime() > (frameTime * myCurrentAnimation.myCurrentFrame))
+		if (myTimer > (frameTime * myCurrentAnimation.myCurrentFrame))
 		{
 			if (myCurrentAnimation.myCurrentFrame < myCurrentAnimation.myLength - 1)
 			{

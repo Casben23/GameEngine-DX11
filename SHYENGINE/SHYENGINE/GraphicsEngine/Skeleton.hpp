@@ -44,12 +44,13 @@ struct Skeleton
 	std::vector<Bone> myBones;
 	
 	std::unordered_map<std::string, size_t> myBoneNameToIndex;
-	std::vector<std::string> myBoneName;
+	std::vector<std::string> myBoneNames;
 	
 	std::unordered_map<std::wstring, Animation> myAnimations;
 	
 	FORCEINLINE const Bone* GetRoot() const
 	{ 
-		if (!myBones.empty()) { return &myBones[0]; return nullptr; }
+		if (!myBones.empty()) { return &myBones[0]; }
+		return nullptr;
 	}
 };

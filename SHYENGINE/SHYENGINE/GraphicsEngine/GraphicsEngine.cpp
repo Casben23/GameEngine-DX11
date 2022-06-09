@@ -47,6 +47,13 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 		std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
 		myScene->AddGameObject(mdlChest);
 	}
+	
+	if (myModelAssetHandler.LoadModel("gremlin_sk.fbx", "gremlin@walk.fbx"))
+	{
+		std::shared_ptr<ModelInstance> mdlGremlin = myModelAssetHandler.GetModelInstance("gremlin_sk.fbx");
+		myScene->AddGameObject(mdlGremlin);
+	}
+
 
 	if (!myForwardRenderer.Initialize())
 	{
@@ -96,6 +103,10 @@ void GraphicsEngine::RenderFrame()
 
 void GraphicsEngine::Update()
 {
+	for (auto& modelInstance : myScene->GetSceneObjects())
+	{
+		modelInstance->Update();
+	}
 	myCamera->Update();
 	InputHandler::UpdateInput();
 	Timer::Update();

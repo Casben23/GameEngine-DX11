@@ -60,8 +60,18 @@ void ForwardRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::
 	}
 	memcpy_s(bufferData.pData, sizeof(ObjectBufferData), &myObjectBufferData, sizeof(ObjectBufferData));
 
+	
+
 	for (const std::shared_ptr<ModelInstance>& model : aModelList)
 	{
+		myObjectBufferData.World = model->GetTransform();
+		
+		if (model->GetModel()->GetSkeleton()->GetRoot())
+		{
+			myObjectBufferData.myHasBones = true;
+			memcpy_s(&myObjectBufferData.myBoneData[0], sizeof(Matrix4x4f) * 128, &model->GetBoneTransforms(), sizeof(Matrix4x4f) * 128);
+		}
+		
 		for (size_t i = 0; i < model->GetNumMeshes(); i++)
 		{
 			const Model::MeshData& meshData = model->GetMeshData(i);

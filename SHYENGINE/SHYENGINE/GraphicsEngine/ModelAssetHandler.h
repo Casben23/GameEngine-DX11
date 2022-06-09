@@ -19,5 +19,6 @@ public:
 	
 	bool Initialize();
 	std::shared_ptr<ModelInstance> GetModelInstance(const char* aModelName) const;
-	bool LoadModel(const char* someFilePath) const;
+	bool LoadModel(const char* modelFilePath) const;
+	bool LoadModel(const char* modelFilePath, const char* animFilePath) const;
 };
