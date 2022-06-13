@@ -13,6 +13,7 @@ class ModelAssetHandler
 	static std::unordered_map<const char*, std::shared_ptr<Model>> myModelRegistry;
 	static std::unordered_map<std::wstring, std::shared_ptr<Material>> myMaterialRegistry;
 
+
 	bool InitUnitCube();
 
 public:

@@ -18,6 +18,14 @@ struct Vertex
 		{0,0,0,0},
 		{0,0,0,0}
 	};
+
+	Vector2f UVs[4]
+	{
+		{0,0},
+		{0,0},
+		{0,0},
+		{0,0}
+	};
 	
 	CommonUtilities::Vector4<unsigned int> myBoneIDs = { 0,0,0,0 };
 	CommonUtilities::Vector4<float> myBoneWeights = { 0,0,0,0 };

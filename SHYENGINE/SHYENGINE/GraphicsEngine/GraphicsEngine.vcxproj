@@ -171,6 +171,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DDSTextureLoader11.h" />
     <ClInclude Include="DX11.h" />
     <ClInclude Include="FBXImporter.h" />
     <ClInclude Include="FBXImporterStructs.h" />
@@ -191,10 +192,13 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Skeleton.hpp" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureAssetHandler.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DDSTextureLoader11.cpp" />
     <ClCompile Include="DX11.cpp" />
     <ClCompile Include="ForwardRenderer.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
@@ -211,6 +215,8 @@
     <ClCompile Include="ModelInstance.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureAssetHandler.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>

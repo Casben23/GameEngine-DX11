@@ -7,6 +7,7 @@
 
 std::unordered_map<std::wstring, std::shared_ptr<Material>> ModelAssetHandler::myMaterialRegistry;
 std::unordered_map<const char*, std::shared_ptr<Model>> ModelAssetHandler::myModelRegistry;
+
 bool ModelAssetHandler::InitUnitCube()
 {
 	/*std::vector<Vertex> myMdlVertices = {
@@ -144,24 +145,6 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 		std::vector<Model::MeshData> mdlMeshData;
 		mdlMeshData.resize(tgaModel.Meshes.size());
 
-		Skeleton mdlSkeleton;
-		const bool hasSkeleton = tgaModel.Skeleton.GetRoot();
-
-		if (hasSkeleton)
-		{
-			for (size_t amount = 0; amount < tgaModel.Skeleton.Bones.size(); amount++)
-			{
-				Skeleton::Bone bone;
-
-				memcpy(&bone.myBindPoseInverse, &tgaModel.Skeleton.Bones[amount].BindPoseInverse, sizeof(bone.myBindPoseInverse)); 
-				bone.myChildren = tgaModel.Skeleton.Bones[amount].Children;
-				bone.myParent = tgaModel.Skeleton.Bones[amount].Parent;
-				bone.myName = tgaModel.Skeleton.Bones[amount].Name;
-				
-				mdlSkeleton.myBones.push_back(bone);
-			}
-		}
-
 		for (size_t i = 0; i < tgaModel.Meshes.size(); i++)
 		{
 			std::vector<Vertex> mdlVertices;
@@ -202,22 +185,6 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 				
 				mdlVertices.push_back(vertex);
 
-				/*if (hasSkeleton)
-				{
-					mdlVertices[v].myBoneIDs = {
-						mesh.Vertices[v].BoneIDs[0],
-						mesh.Vertices[v].BoneIDs[1],
-						mesh.Vertices[v].BoneIDs[2],
-						mesh.Vertices[v].BoneIDs[3]
-					};
-
-					mdlVertices[v].myBoneWeights = {
-						mesh.Vertices[v].BoneWeights[0],
-						mesh.Vertices[v].BoneWeights[1],
-						mesh.Vertices[v].BoneWeights[2],
-						mesh.Vertices[v].BoneWeights[3]
-					};
-				}*/
 				for (int vCol = 0; vCol < 4; vCol++)
 				{
 					mdlVertices[v].myVertexColors[vCol].x = mesh.Vertices[v].VertexColors[vCol][0];
@@ -291,16 +258,21 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 			psFile.close();
 
 			D3D11_INPUT_ELEMENT_DESC layout[] = {
-				{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				{ "COLOR", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				{ "COLOR", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				{ "COLOR", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				{ "BONEIDS", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+					{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "COLOR", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "COLOR", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "COLOR", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "UV", 1, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "UV", 2, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "UV", 3, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "BONEIDS", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+					{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 			};
-
+			
 			ID3D11InputLayout* inputLayout;
+
 			result = DX11::myDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), vsData.data(), vsData.size(), &inputLayout);
 
 			Model::MeshData modelData = {};
@@ -321,32 +293,8 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 		}
 		std::shared_ptr<Model> model = std::make_shared<Model>();
 		
-		if (hasSkeleton)
-		{
-			model->Init(mdlMeshData, modelFilePath, mdlSkeleton);
-		}
-		else
-		{
-			model->Init(mdlMeshData, modelFilePath);
-		}
+		model->Init(mdlMeshData, modelFilePath);
 		
-		TGA::FBXAnimation tgaAnimation;
-
-		/*if (TGA::FBXImporter::LoadAnimation(ansiFileName, model->GetSkeleton()->myBoneName, tgaAnimation))
-		{
-			Animation result;
-
-			result.myDuration = tgaAnimation.Duration;
-			result.myFramesPerSecond = tgaAnimation.FramesPerSecond;
-			result.myLength = tgaAnimation.Length;
-			result.myName = std::wstring(tgaAnimation.Name.begin(), tgaAnimation.Name.end());
-
-			for (size_t f = 0; f < result.myFrames.size(); f++)
-			{
-				memcpy(&result.myFrames[f].myLocalTransforms, &tgaAnimation.Frames[f].LocalTransforms, sizeof(tgaAnimation.Frames[f].LocalTransforms));
-			}
-			model->AddAnimation(result);
-		}*/
 		myModelRegistry.insert({ modelFilePath, model });
 		return true;
 	}
@@ -414,6 +362,8 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 			Model::MeshData& meshData = mdlMeshData[i];
 			meshData.myMaterial = meshMaterial;
 
+			
+			
 			for (size_t v = 0; v < mesh.Vertices.size(); v++)
 			{
 				Vertex vertex;
@@ -442,6 +392,16 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 						mesh.Vertices[v].BoneWeights[3]
 					};
 				}
+
+				for (int uvCh = 0; uvCh < 4; uvCh++)
+				{
+					mdlVertices[v].UVs[uvCh] = 
+					{
+						mesh.Vertices[v].UVs[uvCh][0],
+						mesh.Vertices[v].UVs[uvCh][1]
+					};
+				}
+
 				for (int vCol = 0; vCol < 4; vCol++)
 				{
 					mdlVertices[v].myVertexColors[vCol].x = mesh.Vertices[v].VertexColors[vCol][0];

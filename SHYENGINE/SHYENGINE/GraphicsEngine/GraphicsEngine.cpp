@@ -47,13 +47,19 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 		std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
 		myScene->AddGameObject(mdlChest);
 	}
-	
+
+	if (myModelAssetHandler.LoadModel("SM_Particle_Chest.fbx"))
+	{
+		std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
+		myScene->AddGameObject(mdlChest);
+		mdlChest->SetLocation(100, 0, 100);
+	}
+
 	if (myModelAssetHandler.LoadModel("gremlin_sk.fbx", "gremlin@walk.fbx"))
 	{
 		std::shared_ptr<ModelInstance> mdlGremlin = myModelAssetHandler.GetModelInstance("gremlin_sk.fbx");
 		myScene->AddGameObject(mdlGremlin);
 	}
-
 
 	if (!myForwardRenderer.Initialize())
 	{
@@ -85,18 +91,15 @@ LRESULT CALLBACK GraphicsEngine::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WP
 
 void GraphicsEngine::BeginFrame()
 {
-	// F1 - This is where we clear our buffers and start the DX frame.
-	// ex: myFramework.BeginFrame({1, 0.5f, 0, 1});
 	myFramework.BeginFrame({ 0.1f,0.1f,0.1f,1 });
 }
 
 void GraphicsEngine::RenderFrame()
 {
-	// Will be fleshed out later!
 	if (myScene)
 	{
 		const std::shared_ptr<Camera> camera = myScene->GetMainCamera();
-		const std::vector<std::shared_ptr<ModelInstance>> modelToRender = myScene->GetSceneObjects();
+		const std::vector<std::shared_ptr<ModelInstance>>& modelToRender = myScene->GetSceneObjects();
 		myForwardRenderer.Render(camera, modelToRender);
 	}
 }
@@ -114,8 +117,5 @@ void GraphicsEngine::Update()
 
 void GraphicsEngine::EndFrame()
 {
-	// F1 - This is where we finish our rendering and tell the framework
-	// to present our result to the screen.
-	// ex: myFramework.EndFrame();
 	myFramework.EndFrame();
 }

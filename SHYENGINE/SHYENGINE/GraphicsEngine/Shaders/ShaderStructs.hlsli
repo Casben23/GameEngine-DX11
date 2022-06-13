@@ -25,6 +25,10 @@ struct VertexInput
 	float4 myVxColor2		: COLOR1;
 	float4 myVxColor3		: COLOR2;
 	float4 myVxColor4		: COLOR3;
+	float4 myUV				: UV0;
+	float4 myUV2			: UV1;
+	float4 myUV3			: UV2;
+	float4 myUV4			: UV3;
 	uint4 myBoneIDs			: BONEIDS;
 	float4 myBoneWeights	: BONEWEIGHTS;
 };
@@ -36,6 +40,10 @@ struct VertexToPixel
 	float4 myVxColor2	: COLOR1;
 	float4 myVxColor3	: COLOR2;
 	float4 myVxColor4	: COLOR3;
+	float4 myUV			: UV0;
+	float4 myUV2		: UV1;
+	float4 myUV3		: UV2;
+	float4 myUV4		: UV3;
 };
 
 struct PixelOutput
