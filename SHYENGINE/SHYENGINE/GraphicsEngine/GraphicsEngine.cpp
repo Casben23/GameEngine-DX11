@@ -42,18 +42,18 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	//myScene->AddGameObject(myModelAssetHandler.GetModelInstance(L"Cube"));
 	myScene->SetCamera(myCamera);
 
-	if (myModelAssetHandler.LoadModel("SM_Particle_Chest.fbx"))
-	{
-		std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
-		myScene->AddGameObject(mdlChest);
-	}
+	//if (myModelAssetHandler.LoadModel("SM_Particle_Chest.fbx"))
+	//{
+	//	std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
+	//	myScene->AddGameObject(mdlChest);
+	//}
 
-	if (myModelAssetHandler.LoadModel("SM_Particle_Chest.fbx"))
-	{
-		std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
-		myScene->AddGameObject(mdlChest);
-		mdlChest->SetLocation(100, 0, 100);
-	}
+	//if (myModelAssetHandler.LoadModel("SM_Particle_Chest.fbx"))
+	//{
+	//	std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
+	//	myScene->AddGameObject(mdlChest);
+	//	mdlChest->SetLocation(100, 0, 100);
+	//}
 
 	if (myModelAssetHandler.LoadModel("gremlin_sk.fbx", "gremlin@walk.fbx"))
 	{

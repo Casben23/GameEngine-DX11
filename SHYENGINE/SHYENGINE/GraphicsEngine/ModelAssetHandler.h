@@ -18,6 +18,7 @@ class ModelAssetHandler
 
 public:
 	
+	std::string CleanModelName(std::string someFilePath) const;
 	bool Initialize();
 	std::shared_ptr<ModelInstance> GetModelInstance(const char* aModelName) const;
 	bool LoadModel(const char* modelFilePath) const;

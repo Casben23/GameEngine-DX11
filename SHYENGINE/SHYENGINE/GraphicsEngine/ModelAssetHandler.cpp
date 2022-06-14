@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include "Material.h"
+#include "TextureAssetHandler.h"
 
 std::unordered_map<std::wstring, std::shared_ptr<Material>> ModelAssetHandler::myMaterialRegistry;
 std::unordered_map<const char*, std::shared_ptr<Model>> ModelAssetHandler::myModelRegistry;
@@ -121,6 +122,13 @@ bool ModelAssetHandler::InitUnitCube()
 	return true;
 }
 
+std::string ModelAssetHandler::CleanModelName(std::string someFilePath) const
+{
+	std::string fileName = someFilePath.erase(someFilePath.find_last_of("."));
+
+	return fileName;
+}
+
 bool ModelAssetHandler::Initialize()
 {
 	return InitUnitCube();
@@ -139,7 +147,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 	const std::string ansiFileName = modelFilePath;
 
 	TGA::FBXModel tgaModel;
-	
+
 	if (TGA::FBXImporter::LoadModel(ansiFileName, tgaModel))
 	{
 		std::vector<Model::MeshData> mdlMeshData;
@@ -160,7 +168,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 			else
 			{
 				meshMaterial = std::make_shared<Material>();
-				meshMaterial->Init(wideMatName, 
+				meshMaterial->Init(wideMatName,
 					{
 					static_cast<float>(rand() % 100) / 100,
 					static_cast<float>(rand() % 100) / 100,
@@ -169,7 +177,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 
 				myMaterialRegistry.insert({ wideMatName, meshMaterial });
 			}
-			
+
 			Model::MeshData& meshData = mdlMeshData[i];
 			meshData.myMaterial = meshMaterial;
 
@@ -182,7 +190,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 				vertex.myPosition.y = mesh.Vertices[v].Position[1];
 				vertex.myPosition.z = mesh.Vertices[v].Position[2];
 				vertex.myPosition.w = mesh.Vertices[v].Position[3];
-				
+
 				mdlVertices.push_back(vertex);
 
 				for (int vCol = 0; vCol < 4; vCol++)
@@ -270,7 +278,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 					{ "BONEIDS", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 					{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 			};
-			
+
 			ID3D11InputLayout* inputLayout;
 
 			result = DX11::myDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), vsData.data(), vsData.size(), &inputLayout);
@@ -292,9 +300,9 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 			mdlMeshData[i] = modelData;
 		}
 		std::shared_ptr<Model> model = std::make_shared<Model>();
-		
+
 		model->Init(mdlMeshData, modelFilePath);
-		
+
 		myModelRegistry.insert({ modelFilePath, model });
 		return true;
 	}
@@ -329,7 +337,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 				bone.myParent = tgaModel.Skeleton.Bones[amount].Parent;
 				bone.myName = tgaModel.Skeleton.Bones[amount].Name;
 				mdlSkeleton.myBoneNames.push_back(bone.myName);
-				
+
 				mdlSkeleton.myBones.push_back(bone);
 			}
 		}
@@ -349,12 +357,13 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 			else
 			{
 				meshMaterial = std::make_shared<Material>();
-				meshMaterial->Init(wideMatName,
-					{
-					static_cast<float>(rand() % 100) / 100,
-					static_cast<float>(rand() % 100) / 100,
-					static_cast<float>(rand() % 100) / 100,
-					});
+				std::string baseFileName = CleanModelName(modelFilePath);
+				std::string albedoFileName("T_" + baseFileName + "_C.dds");
+
+				if (TextureAssetHandler::LoadTexture(std::wstring(albedoFileName.begin(), albedoFileName.end())))
+				{
+					meshMaterial->SetAlbedoTexture(TextureAssetHandler::GetTexture(std::wstring(albedoFileName.begin(), albedoFileName.end())));
+				}
 
 				myMaterialRegistry.insert({ wideMatName, meshMaterial });
 			}
@@ -362,12 +371,11 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 			Model::MeshData& meshData = mdlMeshData[i];
 			meshData.myMaterial = meshMaterial;
 
-			
-			
+
+
 			for (size_t v = 0; v < mesh.Vertices.size(); v++)
 			{
 				Vertex vertex;
-
 
 				vertex.myPosition.x = mesh.Vertices[v].Position[0];
 				vertex.myPosition.y = mesh.Vertices[v].Position[1];
@@ -395,7 +403,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 
 				for (int uvCh = 0; uvCh < 4; uvCh++)
 				{
-					mdlVertices[v].UVs[uvCh] = 
+					mdlVertices[v].UVs[uvCh] =
 					{
 						mesh.Vertices[v].UVs[uvCh][0],
 						mesh.Vertices[v].UVs[uvCh][1]
@@ -480,6 +488,10 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 				{ "COLOR", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{ "COLOR", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{ "COLOR", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "UV", 1, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "UV", 2, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "UV", 3, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{ "BONEIDS", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 			};

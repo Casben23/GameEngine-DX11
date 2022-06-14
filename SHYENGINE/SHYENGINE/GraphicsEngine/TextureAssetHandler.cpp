@@ -3,7 +3,7 @@
 
 std::shared_ptr<Texture> TextureAssetHandler::GetTexture(const std::wstring& aName)
 {
-    return std::shared_ptr<Texture>();
+    return myRegistry[aName];
 }
 
 bool TextureAssetHandler::LoadTexture(const std::wstring& aFileName)
@@ -21,7 +21,8 @@ bool TextureAssetHandler::LoadTexture(const std::wstring& aFileName)
 
         if (SUCCEEDED(createResult))
         {
-            myRegistry.insert({ aFileName, std::make_shared<Texture>(result) }),
+            myRegistry.insert({ aFileName, std::make_shared<Texture>(result) });
+            return true;
         }
     }
     return false;

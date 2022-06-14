@@ -13,7 +13,7 @@
 // http://go.microsoft.com/fwlink/?LinkId=248926
 // http://go.microsoft.com/fwlink/?LinkId=248929
 //--------------------------------------------------------------------------------------
-
+#include "GraphicsEngine.pch.h"
 #include "DDSTextureLoader11.h"
 
 #include <algorithm>

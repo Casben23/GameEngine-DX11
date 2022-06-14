@@ -1,3 +1,8 @@
+
+SamplerState defaultSampler : register(s0);
+
+Texture2D albedoTexture : register(t0);
+
 cbuffer FrameBuffer : register(b0)
 {
 	float4x4 FB_ToView;
