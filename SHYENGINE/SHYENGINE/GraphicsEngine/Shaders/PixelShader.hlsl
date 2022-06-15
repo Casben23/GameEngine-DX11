@@ -3,11 +3,15 @@ PixelOutput main(VertexToPixel input)
 {
     PixelOutput result;
 
-	/*const float average = (input.myVxColor.r + input.myVxColor.b + input.myVxColor.g) / 3.0f;
-    result.myColor = average * float4(MB_Albedo, 1);*/
-
-    result.myColor.rgb = albedoTexture.Sample(defaultSampler, input.myUV).rgb;
-    result.myColor.a = 1;
+    float3 debugNormal = input.myNormal;
+    const float signedLength = (input.myNormal.r + input.myNormal.g + input.myNormal.b) / 3;
+    if (signedLength < 0) 
+    {
+        debugNormal = float3(1 - abs(debugNormal));
+    }
+	
+    result.myColor.rgb = debugNormal;
+	result.myColor.a = 1;
 
     return result;
 }

@@ -29,6 +29,10 @@ struct Vertex
 	
 	CommonUtilities::Vector4<unsigned int> myBoneIDs = { 0,0,0,0 };
 	CommonUtilities::Vector4<float> myBoneWeights = { 0,0,0,0 };
+	
+	Vector3f myTangent = { 0,0,0 };
+	Vector3f myBinormal = { 0,0,0 };
+	Vector3f myNormal = { 0,0,0 };
 };
 
 

@@ -6,6 +6,8 @@
 #include "Material.h"
 #include "TextureAssetHandler.h"
 
+#define AssertIfFailed(x) { assert(x == S_OK); }
+
 std::unordered_map<std::wstring, std::shared_ptr<Material>> ModelAssetHandler::myMaterialRegistry;
 std::unordered_map<const char*, std::shared_ptr<Model>> ModelAssetHandler::myModelRegistry;
 
@@ -281,7 +283,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 
 			ID3D11InputLayout* inputLayout;
 
-			result = DX11::myDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), vsData.data(), vsData.size(), &inputLayout);
+			AssertIfFailed(DX11::myDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), vsData.data(), vsData.size(), &inputLayout));
 
 			Model::MeshData modelData = {};
 
@@ -371,8 +373,6 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 			Model::MeshData& meshData = mdlMeshData[i];
 			meshData.myMaterial = meshMaterial;
 
-
-
 			for (size_t v = 0; v < mesh.Vertices.size(); v++)
 			{
 				Vertex vertex;
@@ -410,6 +410,23 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 					};
 				}
 
+				mdlVertices[v].myTangent = {
+					mesh.Vertices[v].Tangent[0],
+					mesh.Vertices[v].Tangent[1],
+					mesh.Vertices[v].Tangent[2],
+				};
+				
+				mdlVertices[v].myBinormal = {
+					mesh.Vertices[v].Binormal[0],
+					mesh.Vertices[v].Binormal[1],
+					mesh.Vertices[v].Binormal[2],
+				};
+
+				mdlVertices[v].myNormal = {
+					mesh.Vertices[v].Normal[0],
+					mesh.Vertices[v].Normal[1],
+					mesh.Vertices[v].Normal[2],
+				};
 				for (int vCol = 0; vCol < 4; vCol++)
 				{
 					mdlVertices[v].myVertexColors[vCol].x = mesh.Vertices[v].VertexColors[vCol][0];
@@ -493,11 +510,14 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 				{ "UV", 2, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{ "UV", 3, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 				{ "BONEIDS", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-				{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+				{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 			};
 
 			ID3D11InputLayout* inputLayout;
-			result = DX11::myDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), vsData.data(), vsData.size(), &inputLayout);
+			AssertIfFailed(DX11::myDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), vsData.data(), vsData.size(), &inputLayout));
 
 			Model::MeshData modelData = {};
 

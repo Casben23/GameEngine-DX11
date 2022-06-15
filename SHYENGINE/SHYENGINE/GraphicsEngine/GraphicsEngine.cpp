@@ -27,9 +27,6 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 		this
 		);
 
-	// F1 -- This is where we should init our Framework
-	// ex: myFramework.Initialize(myWindowHandle, false);
-
 	myFramework.Initialize(myWindowHandle, true);
 	myScene = std::make_shared<Scene>();
 
@@ -39,7 +36,6 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	myCamera->SetLocation(0, 0, -300.f);
 
 	myModelAssetHandler.Initialize();
-	//myScene->AddGameObject(myModelAssetHandler.GetModelInstance(L"Cube"));
 	myScene->SetCamera(myCamera);
 
 	//if (myModelAssetHandler.LoadModel("SM_Particle_Chest.fbx"))

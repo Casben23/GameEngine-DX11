@@ -30,25 +30,33 @@ struct VertexInput
 	float4 myVxColor2		: COLOR1;
 	float4 myVxColor3		: COLOR2;
 	float4 myVxColor4		: COLOR3;
-	float4 myUV				: UV0;
-	float4 myUV2			: UV1;
-	float4 myUV3			: UV2;
-	float4 myUV4			: UV3;
+	float2 myUV				: UV0;
+	float2 myUV2			: UV1;
+	float2 myUV3			: UV2;
+	float2 myUV4			: UV3;
 	uint4 myBoneIDs			: BONEIDS;
 	float4 myBoneWeights	: BONEWEIGHTS;
+	float3 myTangent		: TANGENT;
+	float3 myBinormal		: BIRNORMAL;
+	float3 myNormal			: NORMAL;
 };
 
 struct VertexToPixel
 {
-	float4 myPosition	: SV_POSITION;
-	float4 myVxColor	: COLOR0;
-	float4 myVxColor2	: COLOR1;
-	float4 myVxColor3	: COLOR2;
-	float4 myVxColor4	: COLOR3;
-	float4 myUV			: UV0;
-	float4 myUV2		: UV1;
-	float4 myUV3		: UV2;
-	float4 myUV4		: UV3;
+	float4 myPosition		: SV_POSITION;
+	float4 myVxColor		: COLOR0;
+	float4 myVxColor2		: COLOR1;
+	float4 myVxColor3		: COLOR2;
+	float4 myVxColor4		: COLOR3;
+	float2 myUV				: UV0;
+	float2 myUV2			: UV1;
+	float2 myUV3			: UV2;
+	float2 myUV4			: UV3;
+	uint4 myBoneIDs			: BONEIDS;
+	float4 myBoneWeights	: BONEWEIGHTS;
+	float3 myTangent		: TANGENT;
+	float3 myBinormal		: BIRNORMAL;
+	float3 myNormal			: NORMAL;
 };
 
 struct PixelOutput
