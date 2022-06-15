@@ -37,7 +37,7 @@ struct VertexInput
 	uint4 myBoneIDs			: BONEIDS;
 	float4 myBoneWeights	: BONEWEIGHTS;
 	float3 myTangent		: TANGENT;
-	float3 myBinormal		: BIRNORMAL;
+    float3 myBinormal : BINORMAL;
 	float3 myNormal			: NORMAL;
 };
 
@@ -55,7 +55,7 @@ struct VertexToPixel
 	uint4 myBoneIDs			: BONEIDS;
 	float4 myBoneWeights	: BONEWEIGHTS;
 	float3 myTangent		: TANGENT;
-	float3 myBinormal		: BIRNORMAL;
+    float3 myBinormal : BINORMAL;
 	float3 myNormal			: NORMAL;
 };
 
