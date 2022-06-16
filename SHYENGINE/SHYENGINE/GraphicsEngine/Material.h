@@ -32,6 +32,7 @@ public:
 	FORCEINLINE const Vector3f& GetAlbedo() const { return myMaterialData.myAlbedo; };
 	
 	void SetAlbedoTexture(std::shared_ptr<Texture> aTexture);
+	void SetNormalTexture(std::shared_ptr<Texture> aTexture);
 	void SetAsResource(ComPtr<ID3D11Resource> aMaterialBuffer);
 
 private:

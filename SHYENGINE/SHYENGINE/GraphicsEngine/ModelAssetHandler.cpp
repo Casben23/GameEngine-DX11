@@ -361,10 +361,16 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 				meshMaterial = std::make_shared<Material>();
 				std::string baseFileName = CleanModelName(modelFilePath);
 				std::string albedoFileName("T_" + baseFileName + "_C.dds");
+				std::string normalFileName("T_" + baseFileName + "_N.dds");
 
 				if (TextureAssetHandler::LoadTexture(std::wstring(albedoFileName.begin(), albedoFileName.end())))
 				{
 					meshMaterial->SetAlbedoTexture(TextureAssetHandler::GetTexture(std::wstring(albedoFileName.begin(), albedoFileName.end())));
+				}
+
+				if (TextureAssetHandler::LoadTexture(std::wstring(normalFileName.begin(), normalFileName.end())))
+				{
+					meshMaterial->SetNormalTexture(TextureAssetHandler::GetTexture(std::wstring(normalFileName.begin(), normalFileName.end())));
 				}
 
 				myMaterialRegistry.insert({ wideMatName, meshMaterial });

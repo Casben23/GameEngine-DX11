@@ -172,13 +172,17 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DDSTextureLoader11.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DX11.h" />
+    <ClInclude Include="EnvironmentLight.h" />
     <ClInclude Include="FBXImporter.h" />
     <ClInclude Include="FBXImporterStructs.h" />
     <ClInclude Include="ForwardRenderer.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="GraphicsEngine.pch.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightAssetHandler.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Math\Matrix\Matrix3x3.hpp" />
     <ClInclude Include="Math\Matrix\Matrix4x4.hpp" />
@@ -199,7 +203,9 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader11.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DX11.cpp" />
+    <ClCompile Include="EnvironmentLight.cpp" />
     <ClCompile Include="ForwardRenderer.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="GraphicsEngine.pch.cpp">
@@ -209,6 +215,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightAssetHandler.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelAssetHandler.cpp" />

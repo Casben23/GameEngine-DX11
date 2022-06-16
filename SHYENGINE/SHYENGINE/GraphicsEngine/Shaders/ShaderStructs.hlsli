@@ -2,6 +2,9 @@
 SamplerState defaultSampler : register(s0);
 
 Texture2D albedoTexture : register(t0);
+Texture2D normalTexture : register(t1);
+
+TextureCube environmentTexture : register(t10);
 
 cbuffer FrameBuffer : register(b0)
 {
@@ -23,6 +26,14 @@ cbuffer MaterialBuffer : register(b2)
 	float padding;
 } 
 
+cbuffer LightBuffer : register(b3) 
+{
+	float4 LB_Color;
+	float LB_Intensity;
+	float3 LB_Direction;
+	float LB_padding;
+}
+
 struct VertexInput
 {
 	float4 myPosition		: POSITION;
@@ -37,7 +48,7 @@ struct VertexInput
 	uint4 myBoneIDs			: BONEIDS;
 	float4 myBoneWeights	: BONEWEIGHTS;
 	float3 myTangent		: TANGENT;
-    float3 myBinormal : BINORMAL;
+    float3 myBinormal		: BINORMAL;
 	float3 myNormal			: NORMAL;
 };
 
@@ -55,7 +66,7 @@ struct VertexToPixel
 	uint4 myBoneIDs			: BONEIDS;
 	float4 myBoneWeights	: BONEWEIGHTS;
 	float3 myTangent		: TANGENT;
-    float3 myBinormal : BINORMAL;
+    float3 myBinormal		: BINORMAL;
 	float3 myNormal			: NORMAL;
 };
 

@@ -5,7 +5,9 @@
 #include <vector>
 #include "Model.h"
 #include "ModelInstance.h"
-
+#include "Light.h"
+#include "DirectionalLight.h"
+#include "EnvironmentLight.h"
 class ForwardRenderer
 {
 	struct FrameBufferData
@@ -31,10 +33,11 @@ class ForwardRenderer
 	Microsoft::WRL::ComPtr<ID3D11Buffer> myFrameBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> myObjectBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> myMaterialBuffer;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> myLightBuffer;
 
 public:
 	bool Initialize();
 
-	void Render(const std::shared_ptr<Camera>& aCamera, const std::vector<std::shared_ptr<ModelInstance>>& aModelList);
+	void Render(const std::shared_ptr<Camera>& aCamera, const std::vector<std::shared_ptr<ModelInstance>>& aModelList, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight);
 };
 

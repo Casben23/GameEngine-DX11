@@ -55,8 +55,14 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	{
 		std::shared_ptr<ModelInstance> mdlGremlin = myModelAssetHandler.GetModelInstance("gremlin_sk.fbx");
 		myScene->AddGameObject(mdlGremlin);
+		mdlGremlin->SetRotation( 0,180,0 );
 	}
 
+	Vector4f color = { 1,1,1,1 };
+	Vector3f dir = { 0,0,0 };
+	
+	myDirectionalLight = LightAssetHandler::CreateDirectionalLight(color, 10, dir);
+	
 	if (!myForwardRenderer.Initialize())
 	{
 		return false;
@@ -96,7 +102,7 @@ void GraphicsEngine::RenderFrame()
 	{
 		const std::shared_ptr<Camera> camera = myScene->GetMainCamera();
 		const std::vector<std::shared_ptr<ModelInstance>>& modelToRender = myScene->GetSceneObjects();
-		myForwardRenderer.Render(camera, modelToRender);
+		myForwardRenderer.Render(camera, modelToRender, myDirectionalLight, nullptr);
 	}
 }
 

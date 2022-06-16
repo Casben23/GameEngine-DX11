@@ -6,7 +6,7 @@
 #include "ModelAssetHandler.h"
 #include "ModelInstance.h"
 #include "InputHandler.h"
-
+#include "LightAssetHandler.h"
 class GraphicsEngine
 {
 	SIZE myWindowSize{0,0};
@@ -27,6 +27,8 @@ public:
 	DX11 myFramework;
 	ForwardRenderer myForwardRenderer;
 	std::shared_ptr<Scene> myScene;
+	
+	std::shared_ptr<DirectionalLight> myDirectionalLight;
 
 	std::shared_ptr<Camera> myCamera;
 	ModelAssetHandler myModelAssetHandler;
