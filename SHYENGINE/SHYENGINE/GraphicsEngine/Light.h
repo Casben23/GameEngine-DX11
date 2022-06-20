@@ -10,7 +10,6 @@ public:
 		Vector4f myColor;
 		float myIntensity;
 		Vector3f myDirection;
-		float padding;
 	};
 
 protected:

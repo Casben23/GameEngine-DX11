@@ -23,7 +23,9 @@ cbuffer ObjectBuffer : register (b1)
 cbuffer MaterialBuffer : register(b2)
 {
 	float3 MB_Albedo;
-	float padding;
+	float padding1;
+	float3 MB_Normal;
+	float padding2;
 } 
 
 cbuffer LightBuffer : register(b3) 

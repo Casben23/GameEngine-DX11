@@ -21,6 +21,6 @@ void DirectionalLight::SetAsResource(ComPtr<ID3D11Buffer> aLightBuffer)
 	memcpy_s(bufferData.pData, sizeof(LightBufferData), &myLightBufferData, sizeof(LightBufferData));
 	
 	DX11::myContext->Unmap(aLightBuffer.Get(), 0);
-
 	DX11::myContext->PSSetConstantBuffers(3, 1, aLightBuffer.GetAddressOf());
+
 }

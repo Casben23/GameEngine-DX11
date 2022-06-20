@@ -46,4 +46,9 @@ void Material::SetAsResource(ComPtr<ID3D11Resource> aMaterialBuffer)
 	{
 		myTextures[MaterialTextureChannel::Albedo]->SetAsResource(0);
 	}
+
+	if (myTextures[MaterialTextureChannel::Normal])
+	{
+		myTextures[MaterialTextureChannel::Normal]->SetAsResource(1);
+	}
 }

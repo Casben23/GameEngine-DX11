@@ -7,6 +7,7 @@ namespace MaterialTextureChannel
 	enum
 	{
 		Albedo,
+		Normal,
 		Count
 	};
 }
@@ -20,7 +21,9 @@ public:
 	struct MaterialData
 	{
 		Vector3f myAlbedo;
-		float padding;
+		float padding1;
+		Vector3f myNormal;
+		float padding2;
 	};
 
 	Material();

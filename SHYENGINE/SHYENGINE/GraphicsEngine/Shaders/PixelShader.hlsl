@@ -5,6 +5,7 @@ PixelOutput main(VertexToPixel input)
 
     const float3x3 TBN = float3x3(normalize(input.myTangent), normalize(input.myBinormal), normalize(input.myNormal));
 
+	float3 albedo = albedoTexture.Sample(defaultSampler, input.myUV).rgb;
     float3 normalMap = normalTexture.Sample(defaultSampler, input.myUV).agr;
     normalMap.z = 0;
 
@@ -24,10 +25,10 @@ PixelOutput main(VertexToPixel input)
 
     const float3 Ipixel = LdotN * C * Ilight;
 
-    const float3 diffuse = MB_Albedo * Ipixel;
+    const float3 diffuse = albedo * Ipixel;
 
     const float3 environment = environmentTexture.SampleLevel(defaultSampler, input.myNormal, 5).rgb;
-    const float3 ambient = MB_Albedo * environment;
+    const float3 ambient = albedo * environment;
     
     result.myColor.rgb = saturate(diffuse + ambient);
 	result.myColor.a = 1;

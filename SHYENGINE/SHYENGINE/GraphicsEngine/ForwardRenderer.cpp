@@ -32,7 +32,6 @@ bool ForwardRenderer::Initialize()
 	{
 		return false;
 	}
-	return true;
 
 	bufferDescription.ByteWidth = sizeof(Light::LightBufferData);
 	result = DX11::myDevice->CreateBuffer(&bufferDescription, nullptr, myLightBuffer.GetAddressOf());
@@ -68,7 +67,7 @@ void ForwardRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::
 
 	if (anEnvironmentLight)
 	{
-		aDirectionalLight->SetAsResource(nullptr);
+		anEnvironmentLight->SetAsResource(nullptr);
 	}
 
 	for (const std::shared_ptr<ModelInstance>& model : aModelList)
@@ -99,7 +98,7 @@ void ForwardRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::
 				meshData.myMaterial->SetAsResource(myMaterialBuffer);
 			}
 
-			result = DX11::myContext->Map(myMaterialBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
+			/*result = DX11::myContext->Map(myMaterialBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
 			if (FAILED(result))
 			{
 				return;
@@ -107,7 +106,7 @@ void ForwardRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::
 
 			memcpy(bufferData.pData, &myMaterialBufferData, sizeof(MaterialBufferData));
 			DX11::myContext->Unmap(myMaterialBuffer.Get(), 0);
-			
+			*/
 			DX11::myContext->IASetVertexBuffers(0, 1, meshData.myVertexBuffer.GetAddressOf(), &meshData.myStride, &meshData.myOffset);
 			DX11::myContext->IASetIndexBuffer(meshData.myIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 

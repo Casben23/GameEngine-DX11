@@ -62,6 +62,7 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	Vector3f dir = { 0,0,0 };
 	
 	myDirectionalLight = LightAssetHandler::CreateDirectionalLight(color, 10, dir);
+	myEnvironmentLight = LightAssetHandler::CreateEnvironmentLight(L"skansen_cubemap.dds");
 	
 	if (!myForwardRenderer.Initialize())
 	{
@@ -102,7 +103,7 @@ void GraphicsEngine::RenderFrame()
 	{
 		const std::shared_ptr<Camera> camera = myScene->GetMainCamera();
 		const std::vector<std::shared_ptr<ModelInstance>>& modelToRender = myScene->GetSceneObjects();
-		myForwardRenderer.Render(camera, modelToRender, myDirectionalLight, nullptr);
+		myForwardRenderer.Render(camera, modelToRender, myDirectionalLight, myEnvironmentLight);
 	}
 }
 

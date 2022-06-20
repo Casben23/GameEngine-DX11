@@ -29,6 +29,7 @@ public:
 	std::shared_ptr<Scene> myScene;
 	
 	std::shared_ptr<DirectionalLight> myDirectionalLight;
+	std::shared_ptr<EnvironmentLight> myEnvironmentLight;
 
 	std::shared_ptr<Camera> myCamera;
 	ModelAssetHandler myModelAssetHandler;

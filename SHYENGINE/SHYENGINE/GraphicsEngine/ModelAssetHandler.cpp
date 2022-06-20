@@ -372,7 +372,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 				{
 					meshMaterial->SetNormalTexture(TextureAssetHandler::GetTexture(std::wstring(normalFileName.begin(), normalFileName.end())));
 				}
-
+				meshMaterial->Init(wideMatName, {0.2f,0.2f,0.2f});
 				myMaterialRegistry.insert({ wideMatName, meshMaterial });
 			}
 
