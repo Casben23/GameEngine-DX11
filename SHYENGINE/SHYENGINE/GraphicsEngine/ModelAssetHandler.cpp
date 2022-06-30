@@ -155,6 +155,26 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 		std::vector<Model::MeshData> mdlMeshData;
 		mdlMeshData.resize(tgaModel.Meshes.size());
 
+		Skeleton mdlSkeleton;
+		const bool hasSkeleton = tgaModel.Skeleton.GetRoot();
+		mdlSkeleton.myName = ansiFileName;
+
+		if (hasSkeleton)
+		{
+			for (size_t amount = 0; amount < tgaModel.Skeleton.Bones.size(); amount++)
+			{
+				Skeleton::Bone bone;
+
+				memcpy(&bone.myBindPoseInverse, &tgaModel.Skeleton.Bones[amount].BindPoseInverse, sizeof(bone.myBindPoseInverse));
+				bone.myChildren = tgaModel.Skeleton.Bones[amount].Children;
+				bone.myParent = tgaModel.Skeleton.Bones[amount].Parent;
+				bone.myName = tgaModel.Skeleton.Bones[amount].Name;
+				mdlSkeleton.myBoneNames.push_back(bone.myName);
+
+				mdlSkeleton.myBones.push_back(bone);
+			}
+		}
+
 		for (size_t i = 0; i < tgaModel.Meshes.size(); i++)
 		{
 			std::vector<Vertex> mdlVertices;
@@ -170,13 +190,20 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 			else
 			{
 				meshMaterial = std::make_shared<Material>();
-				meshMaterial->Init(wideMatName,
-					{
-					static_cast<float>(rand() % 100) / 100,
-					static_cast<float>(rand() % 100) / 100,
-					static_cast<float>(rand() % 100) / 100,
-					});
+				std::string baseFileName = CleanModelName(modelFilePath);
+				std::string albedoFileName("T_" + baseFileName + "_C.dds");
+				std::string normalFileName("T_" + baseFileName + "_N.dds");
 
+				if (TextureAssetHandler::LoadTexture(std::wstring(albedoFileName.begin(), albedoFileName.end())))
+				{
+					meshMaterial->SetAlbedoTexture(TextureAssetHandler::GetTexture(std::wstring(albedoFileName.begin(), albedoFileName.end())));
+				}
+
+				if (TextureAssetHandler::LoadTexture(std::wstring(normalFileName.begin(), normalFileName.end())))
+				{
+					meshMaterial->SetNormalTexture(TextureAssetHandler::GetTexture(std::wstring(normalFileName.begin(), normalFileName.end())));
+				}
+				meshMaterial->Init(wideMatName, { 0.2f,0.2f,0.2f });
 				myMaterialRegistry.insert({ wideMatName, meshMaterial });
 			}
 
@@ -187,7 +214,6 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 			{
 				Vertex vertex;
 
-
 				vertex.myPosition.x = mesh.Vertices[v].Position[0];
 				vertex.myPosition.y = mesh.Vertices[v].Position[1];
 				vertex.myPosition.z = mesh.Vertices[v].Position[2];
@@ -195,6 +221,49 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 
 				mdlVertices.push_back(vertex);
 
+				if (hasSkeleton)
+				{
+					mdlVertices[v].myBoneIDs = {
+						mesh.Vertices[v].BoneIDs[0],
+						mesh.Vertices[v].BoneIDs[1],
+						mesh.Vertices[v].BoneIDs[2],
+						mesh.Vertices[v].BoneIDs[3]
+					};
+
+					mdlVertices[v].myBoneWeights = {
+						mesh.Vertices[v].BoneWeights[0],
+						mesh.Vertices[v].BoneWeights[1],
+						mesh.Vertices[v].BoneWeights[2],
+						mesh.Vertices[v].BoneWeights[3]
+					};
+				}
+
+				for (int uvCh = 0; uvCh < 4; uvCh++)
+				{
+					mdlVertices[v].UVs[uvCh] =
+					{
+						mesh.Vertices[v].UVs[uvCh][0],
+						mesh.Vertices[v].UVs[uvCh][1]
+					};
+				}
+
+				mdlVertices[v].myTangent = {
+					mesh.Vertices[v].Tangent[0],
+					mesh.Vertices[v].Tangent[1],
+					mesh.Vertices[v].Tangent[2],
+				};
+
+				mdlVertices[v].myBinormal = {
+					mesh.Vertices[v].Binormal[0],
+					mesh.Vertices[v].Binormal[1],
+					mesh.Vertices[v].Binormal[2],
+				};
+
+				mdlVertices[v].myNormal = {
+					mesh.Vertices[v].Normal[0],
+					mesh.Vertices[v].Normal[1],
+					mesh.Vertices[v].Normal[2],
+				};
 				for (int vCol = 0; vCol < 4; vCol++)
 				{
 					mdlVertices[v].myVertexColors[vCol].x = mesh.Vertices[v].VertexColors[vCol][0];
@@ -268,21 +337,23 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 			psFile.close();
 
 			D3D11_INPUT_ELEMENT_DESC layout[] = {
-					{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "COLOR", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "COLOR", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "COLOR", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "UV", 1, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "UV", 2, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "UV", 3, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "BONEIDS", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "COLOR", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "COLOR", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "COLOR", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "UV", 1, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "UV", 2, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "UV", 3, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "BONEIDS", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+				{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 			};
 
 			ID3D11InputLayout* inputLayout;
-
 			AssertIfFailed(DX11::myDevice->CreateInputLayout(layout, sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC), vsData.data(), vsData.size(), &inputLayout));
 
 			Model::MeshData modelData = {};
@@ -303,7 +374,14 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 		}
 		std::shared_ptr<Model> model = std::make_shared<Model>();
 
-		model->Init(mdlMeshData, modelFilePath);
+		if (hasSkeleton)
+		{
+			model->Init(mdlMeshData, modelFilePath, mdlSkeleton);
+		}
+		else
+		{
+			model->Init(mdlMeshData, modelFilePath);
+		}
 
 		myModelRegistry.insert({ modelFilePath, model });
 		return true;

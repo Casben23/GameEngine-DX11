@@ -44,18 +44,18 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	//	myScene->AddGameObject(mdlChest);
 	//}
 
-	//if (myModelAssetHandler.LoadModel("SM_Particle_Chest.fbx"))
-	//{
-	//	std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
-	//	myScene->AddGameObject(mdlChest);
-	//	mdlChest->SetLocation(100, 0, 100);
-	//}
+	if (myModelAssetHandler.LoadModel("Particle_Chest.fbx"))
+	{
+		std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("Particle_Chest.fbx");
+		myScene->AddGameObject(mdlChest);
+		mdlChest->SetLocation(100, 0, 100);
+	}
 
 	if (myModelAssetHandler.LoadModel("gremlin_sk.fbx", "gremlin@walk.fbx"))
 	{
 		std::shared_ptr<ModelInstance> mdlGremlin = myModelAssetHandler.GetModelInstance("gremlin_sk.fbx");
 		myScene->AddGameObject(mdlGremlin);
-		mdlGremlin->SetRotation( 0,180,0 );
+		mdlGremlin->SetRotation(0, 180, 0);
 	}
 
 	Vector4f color = { 1,1,1,1 };

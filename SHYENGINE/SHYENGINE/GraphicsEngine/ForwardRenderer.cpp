@@ -73,7 +73,8 @@ void ForwardRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::
 	for (const std::shared_ptr<ModelInstance>& model : aModelList)
 	{
 		myObjectBufferData.World = model->GetTransform();
-		
+		myObjectBufferData.myHasBones = false;
+
 		if (model->GetModel()->GetSkeleton()->GetRoot())
 		{
 			myObjectBufferData.myHasBones = true;
