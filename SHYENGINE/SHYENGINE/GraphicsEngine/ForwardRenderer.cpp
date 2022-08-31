@@ -2,6 +2,7 @@
 #include "ForwardRenderer.h"
 #include "Camera.h"
 #include "Material.h"
+#include "ParticleSystem.h"
 
 bool ForwardRenderer::Initialize()
 {
@@ -42,7 +43,7 @@ bool ForwardRenderer::Initialize()
 	return true;
 }
 
-void ForwardRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::vector<std::shared_ptr<ModelInstance>>& aModelList, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight)
+void ForwardRenderer::RenderModels(const std::shared_ptr<Camera>& aCamera, const std::vector<std::shared_ptr<ModelInstance>>& aModelList, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight)
 {
 	HRESULT result = S_FALSE;
 	D3D11_MAPPED_SUBRESOURCE bufferData; 
@@ -115,6 +116,7 @@ void ForwardRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::
 			DX11::myContext->IASetInputLayout(meshData.myInputLayout.Get());
 			DX11::myContext->VSSetShader(meshData.myVertexShader.Get(), nullptr, 0);
 			DX11::myContext->PSSetShader(meshData.myPixelShader.Get(), nullptr, 0);
+			DX11::myContext->GSSetShader(nullptr, nullptr, 0);
 
 			DX11::myContext->VSSetConstantBuffers(1, 1, myObjectBuffer.GetAddressOf());
 			DX11::myContext->PSSetConstantBuffers(1, 1, myObjectBuffer.GetAddressOf());
@@ -124,4 +126,52 @@ void ForwardRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::
 
 		}
 	}
+}
+
+void ForwardRenderer::RenderParticles(const std::shared_ptr<Camera>& aCamera, const std::vector<std::shared_ptr<ParticleSystem>>& aParticleSystemList)
+{
+	HRESULT result = S_FALSE;
+	D3D11_MAPPED_SUBRESOURCE bufferData;
+
+	myFrameBufferData.View = Matrix4x4f::GetFastInverse(aCamera->GetTransform());
+	myFrameBufferData.Projection = aCamera->GetProjection();
+
+	ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
+	result = DX11::myContext->Map(myFrameBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
+	if (FAILED(result))
+	{
+		return;
+	}
+	memcpy_s(bufferData.pData, sizeof(FrameBufferData), &myFrameBufferData, sizeof(FrameBufferData));
+	DX11::myContext->Unmap(myFrameBuffer.Get(), 0);
+	DX11::myContext->VSSetConstantBuffers(0, 1, myFrameBuffer.GetAddressOf());
+
+	DX11::myContext->VSSetConstantBuffers(0, 1, myFrameBuffer.GetAddressOf());
+	DX11::myContext->GSSetConstantBuffers(0, 1, myFrameBuffer.GetAddressOf());
+	DX11::myContext->PSSetConstantBuffers(0, 1, myFrameBuffer.GetAddressOf());
+
+	for (const std::shared_ptr<ParticleSystem>& system : aParticleSystemList) 
+	{
+		myObjectBufferData.World = system->GetTransform();
+		myObjectBufferData.myHasBones = false;
+
+		result = DX11::myContext->Map(myObjectBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
+		if (FAILED(result))
+		{
+			return;
+		}
+		memcpy_s(bufferData.pData, sizeof(ObjectBufferData), &myObjectBufferData, sizeof(ObjectBufferData));
+		DX11::myContext->Unmap(myObjectBuffer.Get(), 0);
+
+		DX11::myContext->VSSetConstantBuffers(1, 1, myObjectBuffer.GetAddressOf());
+		DX11::myContext->GSSetConstantBuffers(1, 1, myObjectBuffer.GetAddressOf());
+		DX11::myContext->PSSetConstantBuffers(1, 1, myObjectBuffer.GetAddressOf());
+
+		for (const auto& emitter : system->GetEmitters()) 
+		{
+			emitter.SetAsResource();
+			emitter.Draw();
+		}
+	}
+
 }

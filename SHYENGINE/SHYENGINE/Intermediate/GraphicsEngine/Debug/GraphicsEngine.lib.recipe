@@ -3,10 +3,19 @@
   <ProjectOutputs />
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\crabb\OneDrive\Dokument\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\PixelShader.cso</FullPath>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\ParticleGS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\crabb\OneDrive\Dokument\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\VertexShader.cso</FullPath>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\ParticlePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\ParticleVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\PixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\VertexShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

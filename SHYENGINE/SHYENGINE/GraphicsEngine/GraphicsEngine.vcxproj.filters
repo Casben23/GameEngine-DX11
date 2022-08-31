@@ -108,6 +108,18 @@
     <ClInclude Include="LightAssetHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleEmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleAssetHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsEngine.pch.cpp">
@@ -170,6 +182,15 @@
     <ClCompile Include="LightAssetHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleEmitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleAssetHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\Temporary\DefaultPS.cso">
@@ -181,9 +202,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\ShaderStructs.hlsli" />
+    <None Include="Shaders\ParticleStructs.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShader.hlsl" />
     <FxCompile Include="Shaders\VertexShader.hlsl" />
+    <FxCompile Include="Shaders\ParticleGS.hlsl" />
+    <FxCompile Include="Shaders\ParticleVS.hlsl" />
+    <FxCompile Include="Shaders\ParticlePS.hlsl" />
   </ItemGroup>
 </Project>

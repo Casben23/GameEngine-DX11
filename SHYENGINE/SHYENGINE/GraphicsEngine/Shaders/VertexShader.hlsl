@@ -1,3 +1,4 @@
+#include "ParticleStructs.hlsli"
 #include "ShaderStructs.hlsli"
 
 VertexToPixel main(VertexInput input)

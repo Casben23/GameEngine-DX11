@@ -1,0 +1,30 @@
+{
+    "SpawnRate": 1,
+    "SpawnAngle": 0.0,
+    "LifeTime": 1.0,
+    "StartVelocity": {
+        "x": 25.0,
+        "y": 10.0,
+        "z": 0.0
+    },
+    "EndVelocity": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+    },
+    "GravityScale": 0.0,
+    "StartSize" : 1.0,
+    "EndSize": 1.0,
+    "StartColor": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+    },
+    "EndColor": {
+        "r": 0.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 1.0
+    }
+}

@@ -394,7 +394,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 {
 	const std::string ansiFileName = modelFilePath;
 	const std::string animFileName = animFilePath;
-
+	
 	TGA::FBXModel tgaModel;
 
 	if (TGA::FBXImporter::LoadModel(ansiFileName, tgaModel))

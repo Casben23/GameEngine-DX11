@@ -24,6 +24,7 @@ bool TextureAssetHandler::LoadTexture(const std::wstring& aFileName)
             myRegistry.insert({ aFileName, std::make_shared<Texture>(result) });
             return true;
         }
+        return false;
     }
-    return false;
+    return true;
 }

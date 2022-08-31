@@ -1,4 +1,6 @@
 #include "ShaderStructs.hlsli"
+#include "ParticleStructs.hlsli"
+
 PixelOutput main(VertexToPixel input)
 {
     PixelOutput result;
