@@ -8,6 +8,8 @@ class ModelInstance : public SceneObject
 	std::shared_ptr<Model> myModel;
 	Animation myCurrentAnimation;
 
+	std::string myName;
+
 	float myTimer = 0.0f;
 
 	std::array<Matrix4x4f, 128> myBoneTransforms;
@@ -16,6 +18,8 @@ public:
 
 	ModelInstance() = default;
 
+	std::string GetName() { return myName; }
+	void SetName(std::string aName) { myName = aName; }
 	void Init(std::shared_ptr<Model> aModel);
 	void Update();
 	void UpdateAnimationHierarchy(size_t aCurrentFrame, unsigned aBoneIdx, const Animation* anAnimation, Matrix4x4f& aParentTransform, Matrix4x4f* outBoneTransforms);

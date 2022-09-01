@@ -6,7 +6,7 @@ std::shared_ptr<DirectionalLight> LightAssetHandler::CreateDirectionalLight(Vect
     myDirectionalLight = std::make_shared<DirectionalLight>();
     myDirectionalLight->Init(aColor, anIntensity);
 
-    myDirectionalLight->myLightBufferData.myDirection = Vector3f( 45,45,45 );
+    myDirectionalLight->myLightBufferData.myDirection = aRotation;
 	
     return myDirectionalLight;
 }

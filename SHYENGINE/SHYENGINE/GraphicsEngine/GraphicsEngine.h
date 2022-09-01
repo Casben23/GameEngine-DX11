@@ -57,7 +57,19 @@ public:
 	void SetBlendState(BlendState aBlendState);
 	void SetDepthStencilState(DepthStencilState aDepthStencilState);
 
+	void ImGUIUpdate();
+
 private:
+	bool ShowImGUIWindow = false;
+	bool eyo1 = false;
+	bool eyo2 = false;
+	bool eyo3 = false;
+
+
+	std::array<float, 4> myClearColor;
+
+	std::shared_ptr<ModelInstance> mySelectedSceneObject;
+
 	std::array<ComPtr<ID3D11BlendState>, static_cast<unsigned>(BlendState::BS_COUNT)> myBlendStates;
 	std::array<ComPtr<ID3D11DepthStencilState>, static_cast<unsigned>(DepthStencilState::DSS_COUNT)> myDepthStencilStates;
 

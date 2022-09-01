@@ -17,6 +17,7 @@ VertexToPixel main(VertexInput input)
 	}
 	
 	const float4 vertexWorldPosition = mul(OB_ToWorld, mul(input.myPosition, skinningMatrix));
+    result.myVxPosition = vertexWorldPosition;
 	const float4 vertexObjectPosition = input.myPosition;
 	const float4 vertexViewPosition = mul(FB_ToView, vertexWorldPosition);
 	const float4 vertexProjectonPosition = mul(FB_ToProjection, vertexViewPosition); 

@@ -48,7 +48,9 @@ void ForwardRenderer::RenderModels(const std::shared_ptr<Camera>& aCamera, const
 	HRESULT result = S_FALSE;
 	D3D11_MAPPED_SUBRESOURCE bufferData; 
 
-	myFrameBufferData.View = Matrix4x4f::GetFastInverse(aCamera->GetTransform());
+	myFrameBufferData.View = Matrix4x4f::GetFastInverse(aCamera->GetTransform().GetMatrix());
+	// This might be where everything breaks???! WE do not know math
+	myFrameBufferData.CamTranslation = aCamera->GetTransform().GetPosition();
 	myFrameBufferData.Projection = aCamera->GetProjection();
 
 	ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
@@ -73,7 +75,7 @@ void ForwardRenderer::RenderModels(const std::shared_ptr<Camera>& aCamera, const
 
 	for (const std::shared_ptr<ModelInstance>& model : aModelList)
 	{
-		myObjectBufferData.World = model->GetTransform();
+		myObjectBufferData.World = model->GetTransform().GetMatrix();
 		myObjectBufferData.myHasBones = false;
 
 		if (model->GetModel()->GetSkeleton()->GetRoot())
@@ -85,7 +87,7 @@ void ForwardRenderer::RenderModels(const std::shared_ptr<Camera>& aCamera, const
 		for (size_t i = 0; i < model->GetNumMeshes(); i++)
 		{
 			const Model::MeshData& meshData = model->GetMeshData(i);
-			myObjectBufferData.World = model->GetTransform();
+			myObjectBufferData.World = model->GetTransform().GetMatrix();
 			ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
 			result = DX11::myContext->Map(myObjectBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
 			if (FAILED(result))
@@ -133,7 +135,7 @@ void ForwardRenderer::RenderParticles(const std::shared_ptr<Camera>& aCamera, co
 	HRESULT result = S_FALSE;
 	D3D11_MAPPED_SUBRESOURCE bufferData;
 
-	myFrameBufferData.View = Matrix4x4f::GetFastInverse(aCamera->GetTransform());
+	myFrameBufferData.View = Matrix4x4f::GetFastInverse(aCamera->GetTransform().GetMatrix());
 	myFrameBufferData.Projection = aCamera->GetProjection();
 
 	ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
@@ -152,7 +154,7 @@ void ForwardRenderer::RenderParticles(const std::shared_ptr<Camera>& aCamera, co
 
 	for (const std::shared_ptr<ParticleSystem>& system : aParticleSystemList) 
 	{
-		myObjectBufferData.World = system->GetTransform();
+		myObjectBufferData.World = system->GetTransform().GetMatrix();
 		myObjectBufferData.myHasBones = false;
 
 		result = DX11::myContext->Map(myObjectBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);

@@ -17,6 +17,8 @@ class ForwardRenderer
 	{
 		Matrix4x4f View;
 		Matrix4x4f Projection;
+		Vector3f CamTranslation;
+		unsigned int Padding;
 	} myFrameBufferData;
 
 	struct ObjectBufferData

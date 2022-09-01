@@ -3,6 +3,7 @@ SamplerState defaultSampler : register(s0);
 
 Texture2D albedoTexture : register(t0);
 Texture2D normalTexture : register(t1);
+Texture2D materialTexture : register(t2);
 
 TextureCube environmentTexture : register(t10);
 
@@ -10,6 +11,8 @@ cbuffer FrameBuffer : register(b0)
 {
 	float4x4 FB_ToView;
 	float4x4 FB_ToProjection;
+    float3 FB_CamTranslation;
+    uint FB_Padding;
 }
 
 cbuffer ObjectBuffer : register (b1)
@@ -57,6 +60,7 @@ struct VertexInput
 struct VertexToPixel
 {
 	float4 myPosition		: SV_POSITION;
+    float4 myVxPosition		: POSITION;
 	float4 myVxColor		: COLOR0;
 	float4 myVxColor2		: COLOR1;
 	float4 myVxColor3		: COLOR2;

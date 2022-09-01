@@ -3,7 +3,12 @@
 #include "InputHandler.h"
 #include "Timer.h"
 #include "ParticleAssetHandler.h"
-
+#include "ImGUI/imgui.h"
+#include "ImGUI/imgui_impl_dx11.h"
+#include "ImGUI/imgui_impl_win32.h"
+#include <filesystem>
+#include "Tools/json.hpp"
+#include <fstream>
 bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	unsigned someWidth, unsigned someHeight,
 	bool enableDeviceDebug)
@@ -28,14 +33,34 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 		this
 	);
 
-
 	myFramework.Initialize(myWindowHandle, true);
+
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsLight();
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplWin32_Init(myWindowHandle);
+	ImGui_ImplDX11_Init(DX11::myDevice.Get(), DX11::myContext.Get());
+
 	myScene = std::make_shared<Scene>();
 
 	myCamera = std::make_shared<Camera>();
 	myCamera->Init(90, { 1920, 1080 }, 0.1f, 1500.f);
 
-	myCamera->SetLocation(0, 0, -5.f);
+	myCamera->GetTransform().SetPosition(0, 0, -5.f);
+
+	nlohmann::json data;
+	std::ifstream f("EngineSettings/Settings.json");
+	f >> data;
+	myClearColor = { data["Color"]["r"], data["Color"]["g"], data["Color"]["b"], data["Color"]["a"]};
 
 	myModelAssetHandler.Initialize();
 	myScene->SetCamera(myCamera);
@@ -49,25 +74,27 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	//	myScene->AddGameObject(mdlChest);
 	//}
 
-	/*if (myModelAssetHandler.LoadModel("Particle_Chest.fbx"))
+	if (myModelAssetHandler.LoadModel("Particle_Chest.fbx"))
 	{
 		std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("Particle_Chest.fbx");
+		mdlChest->SetName("Chest");
 		myScene->AddGameObject(mdlChest);
-		mdlChest->SetLocation(100, 0, 100);
-	}*/
+		mdlChest->GetTransform().SetPosition(100, 0, 100);
+	}
 
 	if (myModelAssetHandler.LoadModel("gremlin_sk.fbx", "gremlin@walk.fbx"))
 	{
 		std::shared_ptr<ModelInstance> mdlGremlin = myModelAssetHandler.GetModelInstance("gremlin_sk.fbx");
+		mdlGremlin->SetName("Gremlin");
 		myScene->AddGameObject(mdlGremlin);
-		mdlGremlin->SetLocation(0, 0, 100);
-		mdlGremlin->SetRotation(0, 180, 0);
+		mdlGremlin->GetTransform().SetPosition(0, 0, 100);
+		mdlGremlin->GetTransform().SetRotation(0, 180, 0);
 	}
 
 	Vector4f color = { 1,1,1,1 };
-	Vector3f dir = { 0,0,0 };
+	Vector3f dir = { 1,1,1 };
 
-	myDirectionalLight = LightAssetHandler::CreateDirectionalLight(color, 2, dir);
+	myDirectionalLight = LightAssetHandler::CreateDirectionalLight(color, 0.5f, dir);
 	myEnvironmentLight = LightAssetHandler::CreateEnvironmentLight(L"skansen_cubemap.dds");
 
 	if (!myForwardRenderer.Initialize())
@@ -91,7 +118,7 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 
 	result = DX11::myDevice->CreateBlendState(&alphaBlendDesc, &myBlendStates[BlendState::BS_Additive]);
 
-	if (FAILED(result)) 
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -104,7 +131,7 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 
 	result = DX11::myDevice->CreateDepthStencilState(&readOnlyDepthDesc, &myDepthStencilStates[DepthStencilState::DSS_ReadOnly]);
 
-	if (FAILED(result)) 
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -114,8 +141,12 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	return true;
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK GraphicsEngine::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+		return true;
+
 	// We want to be able to access the Graphics Engine instance from inside this function.
 	InputHandler::UpdateEvents(uMsg, wParam, lParam);
 
@@ -136,7 +167,11 @@ LRESULT CALLBACK GraphicsEngine::WinProc(_In_ HWND hWnd, _In_ UINT uMsg, _In_ WP
 
 void GraphicsEngine::BeginFrame()
 {
-	myFramework.BeginFrame({ 0.1f,0.1f,0.1f,1 });
+	myFramework.BeginFrame(myClearColor);
+
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 }
 
 void GraphicsEngine::RenderFrame()
@@ -152,6 +187,9 @@ void GraphicsEngine::RenderFrame()
 		myForwardRenderer.RenderParticles(camera, { ps });
 		SetBlendState(BlendState::BS_None);
 		SetDepthStencilState(DepthStencilState::DSS_ReadWrite);
+
+		ImGUIUpdate();
+		//ImGui::ShowDemoWindow();
 	}
 }
 
@@ -177,7 +215,96 @@ void GraphicsEngine::SetDepthStencilState(DepthStencilState aDepthStencilState)
 	DX11::myContext->OMSetDepthStencilState(myDepthStencilStates[aDepthStencilState].Get(), 0);
 }
 
+void GraphicsEngine::ImGUIUpdate()
+{
+	bool ImGUIWindowsOpen = true;
+	mySelectedSceneObject = myScene->GetSceneObjects()[0];
+
+	ImGui::Begin("Clear Color Picker", &ImGUIWindowsOpen, ImGuiWindowFlags_MenuBar);
+
+	float color[4] = { myClearColor[0],myClearColor[1],myClearColor[2],myClearColor[3] };
+	ImGui::ColorPicker4("Clear Color", color);
+	myClearColor[0] = color[0];
+	myClearColor[1] = color[1];
+	myClearColor[2] = color[2];
+	myClearColor[3] = color[3];
+
+	if (ImGui::Button("Save Settings"))
+	{
+		nlohmann::json file;
+		file["Color"]["r"] = myClearColor[0];
+		file["Color"]["g"] = myClearColor[1];
+		file["Color"]["b"] = myClearColor[2];
+		file["Color"]["a"] = myClearColor[3];
+
+		std::ofstream filestream("EngineSettings/Settings.json");
+		filestream << file;
+	}
+
+	ImGui::LabelText("", "Directional Light Settings");
+	ImGui::DragFloat("Intensity", &myDirectionalLight->GetIntensity(),.1f,0.f,100.f);
+
+	float lightRot[3] = { myDirectionalLight->GetTransform().GetRotation().x,
+						 myDirectionalLight->GetTransform().GetRotation().y,
+						 myDirectionalLight->GetTransform().GetRotation().z };
+
+	ImGui::DragFloat3("Rotation", lightRot, 0.1f, 1, 360);
+
+	myDirectionalLight->GetTransform().SetRotation(lightRot[0], lightRot[1], lightRot[2]);
+	myDirectionalLight->GetLightBufferData().myDirection = myDirectionalLight->GetTransform().GetRotation();
+	ImGui::End();
+
+	ImGui::Begin("Scene Hierarchy", &ImGUIWindowsOpen, ImGuiWindowFlags_MenuBar);
+
+	static int selected = -1;
+	for (int n = 0; n < myScene->GetSceneObjects().size(); n++)
+	{
+		char buf[32];
+		if (myScene->GetSceneObjects()[n]->GetName().empty())
+		{
+			sprintf_s(buf, "Object %d", n);
+		}
+		else
+		{
+			sprintf_s(buf, myScene->GetSceneObjects()[n]->GetName().c_str(), n);
+		}
+		if (ImGui::Selectable(buf, selected == n))
+			selected = n;
+	}
+	ImGui::End();
+
+	ImGui::Begin("Properties", &ImGUIWindowsOpen, ImGuiWindowFlags_MenuBar);
+
+	if (selected >= 0)
+	{
+		float pos[3] = { myScene->GetSceneObjects()[selected]->GetTransform().GetPosition().x,
+						 myScene->GetSceneObjects()[selected]->GetTransform().GetPosition().y,
+						 myScene->GetSceneObjects()[selected]->GetTransform().GetPosition().z };
+
+		ImGui::DragFloat3("Position", pos, 1, -INT_MAX, INT_MAX);
+		myScene->GetSceneObjects()[selected]->GetTransform().SetPosition(pos[0], pos[1], pos[2]);
+
+		float rot[3] = { myScene->GetSceneObjects()[selected]->GetTransform().GetRotation().x,
+						 myScene->GetSceneObjects()[selected]->GetTransform().GetRotation().y,
+						 myScene->GetSceneObjects()[selected]->GetTransform().GetRotation().z };
+
+		ImGui::DragFloat3("Rotation", rot, 0.05f, -INT_MAX, INT_MAX);
+		myScene->GetSceneObjects()[selected]->GetTransform().SetRotation(rot[0], rot[1], rot[2]);
+
+		float scale[3] = { myScene->GetSceneObjects()[selected]->GetTransform().GetScale().x,
+						 myScene->GetSceneObjects()[selected]->GetTransform().GetScale().y,
+						 myScene->GetSceneObjects()[selected]->GetTransform().GetScale().z };
+
+		ImGui::DragFloat3("Scale", scale, 1, -INT_MAX, INT_MAX);
+		myScene->GetSceneObjects()[selected]->GetTransform().SetScale(scale[0], scale[1], scale[2]);
+	}
+
+	ImGui::End();
+}
+
 void GraphicsEngine::EndFrame()
 {
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	myFramework.EndFrame();
 }

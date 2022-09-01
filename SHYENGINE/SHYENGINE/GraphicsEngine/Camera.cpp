@@ -1,9 +1,9 @@
 #define _USE_MATH_DEFINES
-
 #include "GraphicsEngine.pch.h"
 #include "Camera.h"
 #include <cmath>
 #include <iostream>
+
 bool Camera::Init(float aHorizontalFoV, CommonUtilities::Vector2<unsigned int> aResolution, float aNearPlane, float aFarPlane)
 {
 	assert(aNearPlane < aFarPlane);
@@ -40,39 +40,39 @@ void Camera::Move()
 {
 	if (InputHandler::IsKeyPressed(eKeyCode::W))
 	{
-		Vector3f rotationZ = { myTransform(3,1),myTransform(3,2), myTransform(3,3) };
-		myPosition += rotationZ * mySpeed * 0.1f;
-		RebuildMatrix();
+		Vector3f rotationZ = { myTransform.GetMatrix()(3,1),myTransform.GetMatrix()(3,2), myTransform.GetMatrix()(3,3) };
+		myTransform.GetPosition() += rotationZ * mySpeed * 0.1f;
+		myTransform.RebuildMatrix();
 	}
 	if (InputHandler::IsKeyPressed(eKeyCode::S))
 	{
-		Vector3f rotationZ = { -myTransform(3,1),-myTransform(3,2),-myTransform(3,3) };
-		myPosition += rotationZ * mySpeed * 0.1f;
-		RebuildMatrix();
+		Vector3f rotationZ = { -myTransform.GetMatrix()(3,1),-myTransform.GetMatrix()(3,2),-myTransform.GetMatrix()(3,3) };
+		myTransform.GetPosition() += rotationZ * mySpeed * 0.1f;
+		myTransform.RebuildMatrix();
 	}
 	if (InputHandler::IsKeyPressed(eKeyCode::A))
 	{
-		Vector3f rotationZ = { -myTransform(1,1),-myTransform(1,2),-myTransform(1,3) };
-		myPosition += rotationZ * mySpeed * 0.1f;
-		RebuildMatrix();
+		Vector3f rotationZ = { -myTransform.GetMatrix()(1,1),-myTransform.GetMatrix()(1,2),-myTransform.GetMatrix()(1,3) };
+		myTransform.GetPosition() += rotationZ * mySpeed * 0.1f;
+		myTransform.RebuildMatrix();
 	}
 	if (InputHandler::IsKeyPressed(eKeyCode::D))
 	{
-		Vector3f rotationZ = { myTransform(1,1),myTransform(1,2),myTransform(1,3)};
-		myPosition += rotationZ * mySpeed * 0.1f;
-		RebuildMatrix();
+		Vector3f rotationZ = { myTransform.GetMatrix()(1,1),myTransform.GetMatrix()(1,2),myTransform.GetMatrix()(1,3) };
+		myTransform.GetPosition() += rotationZ * mySpeed * 0.1f;
+		myTransform.RebuildMatrix();
 	}
 	if (InputHandler::IsKeyPressed(VK_SPACE))
 	{
-		Vector3f rotationZ = { myTransform(2,1),myTransform(2,2),myTransform(2,3) };
-		myPosition += rotationZ * mySpeed * 0.1f;
-		RebuildMatrix();
+		Vector3f rotationZ = { myTransform.GetMatrix()(2,1),myTransform.GetMatrix()(2,2),myTransform.GetMatrix()(2,3) };
+		myTransform.GetPosition() += rotationZ * mySpeed * 0.1f;
+		myTransform.RebuildMatrix();
 	}
 	if (InputHandler::IsKeyPressed(VK_CONTROL))
 	{
-		Vector3f rotationZ = { -myTransform(2,1),-myTransform(2,2),-myTransform(2,3) };
-		myPosition += rotationZ * mySpeed * 0.1f;
-		RebuildMatrix();
+		Vector3f rotationZ = { -myTransform.GetMatrix()(2,1),-myTransform.GetMatrix()(2,2),-myTransform.GetMatrix()(2,3) };
+		myTransform.GetPosition() += rotationZ * mySpeed * 0.1f;
+		myTransform.RebuildMatrix();
 	}
 
 	if (InputHandler::IsKeyPressed(VK_SHIFT))
@@ -90,7 +90,7 @@ void Camera::LookAround()
 	if (InputHandler::IsKeyPressed(eKeyCode::MMB))
 	{
 		Vector3f mouseDelta = { static_cast<float>(InputHandler::GetDeltaMousePosition().y), static_cast<float>(InputHandler::GetDeltaMousePosition().x), 0 };
-		myRotation += mouseDelta * myLookSensentivity * 0.1f;
-		RebuildMatrix();
+		myTransform.GetRotation() += mouseDelta * myLookSensentivity * 0.1f;
+		myTransform.RebuildMatrix();
 	}
 }

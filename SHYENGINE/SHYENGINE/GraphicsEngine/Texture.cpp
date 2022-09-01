@@ -8,6 +8,6 @@ Texture::~Texture()
 }
 
 void Texture::SetAsResource(unsigned int aSlot)
-{
+{	
 	DX11::myContext->PSSetShaderResources(aSlot, 1, mySRV.GetAddressOf());
 }

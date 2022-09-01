@@ -193,6 +193,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 				std::string baseFileName = CleanModelName(modelFilePath);
 				std::string albedoFileName("T_" + baseFileName + "_C.dds");
 				std::string normalFileName("T_" + baseFileName + "_N.dds");
+				std::string materialTexFileName("T_" + baseFileName + "_M.dds");
 
 				if (TextureAssetHandler::LoadTexture(std::wstring(albedoFileName.begin(), albedoFileName.end())))
 				{
@@ -203,7 +204,12 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath) const
 				{
 					meshMaterial->SetNormalTexture(TextureAssetHandler::GetTexture(std::wstring(normalFileName.begin(), normalFileName.end())));
 				}
-				meshMaterial->Init(wideMatName, { 0.2f,0.2f,0.2f });
+
+				if (TextureAssetHandler::LoadTexture(std::wstring(materialTexFileName.begin(), materialTexFileName.end()))) 
+				{
+					meshMaterial->SetMaterialTexture(TextureAssetHandler::GetTexture(std::wstring(materialTexFileName.begin(), materialTexFileName.end())));
+				}
+				meshMaterial->Init(wideMatName, { 1,1,1 });
 				myMaterialRegistry.insert({ wideMatName, meshMaterial });
 			}
 
@@ -440,6 +446,7 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 				std::string baseFileName = CleanModelName(modelFilePath);
 				std::string albedoFileName("T_" + baseFileName + "_C.dds");
 				std::string normalFileName("T_" + baseFileName + "_N.dds");
+				std::string materialTexFileName("T_" + baseFileName + "_M.dds");
 
 				if (TextureAssetHandler::LoadTexture(std::wstring(albedoFileName.begin(), albedoFileName.end())))
 				{
@@ -449,6 +456,10 @@ bool ModelAssetHandler::LoadModel(const char* modelFilePath, const char* animFil
 				if (TextureAssetHandler::LoadTexture(std::wstring(normalFileName.begin(), normalFileName.end())))
 				{
 					meshMaterial->SetNormalTexture(TextureAssetHandler::GetTexture(std::wstring(normalFileName.begin(), normalFileName.end())));
+				}
+				if (TextureAssetHandler::LoadTexture(std::wstring(materialTexFileName.begin(), materialTexFileName.end())))
+				{
+					meshMaterial->SetMaterialTexture(TextureAssetHandler::GetTexture(std::wstring(materialTexFileName.begin(), materialTexFileName.end())));
 				}
 				meshMaterial->Init(wideMatName, {0.2f,0.2f,0.2f});
 				myMaterialRegistry.insert({ wideMatName, meshMaterial });

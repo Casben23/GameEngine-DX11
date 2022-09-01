@@ -22,6 +22,9 @@ public:
 	virtual void SetAsResource(ComPtr<ID3D11Buffer> aLightBuffer) = 0;
 	
 	FORCEINLINE Vector4f GetColor() const { return myLightBufferData.myColor; }
-	FORCEINLINE float GetIntensity() const { return myLightBufferData.myIntensity; }
+	FORCEINLINE float& GetIntensity() { return myLightBufferData.myIntensity; }
+
+	LightBufferData& GetLightBufferData() { return myLightBufferData; }
+	void SetIntensity(float aIntensity) { myLightBufferData.myIntensity = aIntensity; }
 };
 
