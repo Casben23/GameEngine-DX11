@@ -173,12 +173,14 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DDSTextureLoader11.h" />
+    <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DX11.h" />
     <ClInclude Include="EnvironmentLight.h" />
     <ClInclude Include="FBXImporter.h" />
     <ClInclude Include="FBXImporterStructs.h" />
     <ClInclude Include="ForwardRenderer.h" />
+    <ClInclude Include="GBuffer.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="GraphicsEngine.pch.h" />
     <ClInclude Include="ImGUI\imconfig.h" />
@@ -217,10 +219,12 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader11.cpp" />
+    <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DX11.cpp" />
     <ClCompile Include="EnvironmentLight.cpp" />
     <ClCompile Include="ForwardRenderer.cpp" />
+    <ClCompile Include="GBuffer.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="GraphicsEngine.pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

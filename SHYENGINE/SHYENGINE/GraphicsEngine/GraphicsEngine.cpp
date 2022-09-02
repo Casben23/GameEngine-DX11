@@ -91,7 +91,7 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 		mdlGremlin->GetTransform().SetRotation(0, 180, 0);
 	}
 
-	Vector4f color = { 1,1,1,1 };
+	Vector4f color = { 1, 1, 1,1 };
 	Vector3f dir = { 1,1,1 };
 
 	myDirectionalLight = LightAssetHandler::CreateDirectionalLight(color, 0.5f, dir);
@@ -248,7 +248,7 @@ void GraphicsEngine::ImGUIUpdate()
 						 myDirectionalLight->GetTransform().GetRotation().y,
 						 myDirectionalLight->GetTransform().GetRotation().z };
 
-	ImGui::DragFloat3("Rotation", lightRot, 0.1f, 1, 360);
+	ImGui::DragFloat3("Rotation", lightRot, 0.1f, -360, 360);
 
 	myDirectionalLight->GetTransform().SetRotation(lightRot[0], lightRot[1], lightRot[2]);
 	myDirectionalLight->GetLightBufferData().myDirection = myDirectionalLight->GetTransform().GetRotation();
