@@ -38,8 +38,14 @@ class DeferredRenderer
 	Microsoft::WRL::ComPtr<ID3D11Buffer> myMaterialBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> myLightBuffer;
 
+	Microsoft::WRL::ComPtr<ID3D11PixelShader> myGBufferShader;
+
 public:
-	void enerateB(
+	bool Init();
+
+	void Render(const std::shared_ptr<Camera>& aCamera, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight);
+
+	void GenerateGBuffer(
 		const std::shared_ptr<Camera>& aCamera,
 		const std::vector<std::shared_ptr<ModelInstance>>& aModelList,
 		float aDeltaTime, float aTotalTime);

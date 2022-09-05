@@ -39,6 +39,19 @@ cbuffer LightBuffer : register(b3)
 	float LB_padding;
 }
 
+struct GBufferOutput
+{
+    float4 Albedo : SV_TARGET0;
+    float4 Normal : SV_TARGET1;
+    float4 Material : SV_TARGET2;
+	
+    float4 VertexNormal : SV_TARGET3;
+	
+    float4 WorldPosition : SV_TARGET4;
+	
+    float AmbientOcclusion : SV_TARGET5;
+};
+
 struct VertexInput
 {
 	float4 myPosition		: POSITION;

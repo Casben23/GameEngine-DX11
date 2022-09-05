@@ -278,5 +278,6 @@
     <FxCompile Include="Shaders\ParticleGS.hlsl" />
     <FxCompile Include="Shaders\ParticleVS.hlsl" />
     <FxCompile Include="Shaders\ParticlePS.hlsl" />
+    <FxCompile Include="Shaders\GBufferPS.hlsl" />
   </ItemGroup>
 </Project>
