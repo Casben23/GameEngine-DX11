@@ -10,6 +10,12 @@ public:
 		Vector4f myColor;
 		float myIntensity;
 		Vector3f myDirection;
+		float myRange;
+		Vector3f myPosition;
+		float myAttenuation;
+		float mySpotInnerRadius;
+		float mySpotOuterRadius;
+		unsigned myLightType;
 	};
 
 protected:

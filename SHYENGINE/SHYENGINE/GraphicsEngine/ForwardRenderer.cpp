@@ -34,7 +34,7 @@ bool ForwardRenderer::Initialize()
 		return false;
 	}
 
-	bufferDescription.ByteWidth = sizeof(Light::LightBufferData);
+	bufferDescription.ByteWidth = sizeof(SceneLightBuffer);
 	result = DX11::myDevice->CreateBuffer(&bufferDescription, nullptr, myLightBuffer.GetAddressOf());
 	if (FAILED(result))
 	{
@@ -71,6 +71,13 @@ void ForwardRenderer::RenderModels(const std::shared_ptr<Camera>& aCamera, const
 	if (anEnvironmentLight)
 	{
 		anEnvironmentLight->SetAsResource(nullptr);
+	}
+
+	mySceneLightBufferData.myNumLights = 0;
+	ZeroMemory(mySceneLightBufferData.Lights, sizeof(Light::LightBufferData) * MAX_FORWARD_LIGHTS);
+
+	for (size_t l = 0; l < aLight)
+	{
 	}
 
 	for (const std::shared_ptr<ModelInstance>& model : aModelList)

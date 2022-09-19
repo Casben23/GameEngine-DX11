@@ -3,12 +3,8 @@
 #include "InputHandler.h"
 #include "Timer.h"
 #include "ParticleAssetHandler.h"
-#include "ImGUI/imgui.h"
-#include "ImGUI/imgui_impl_dx11.h"
-#include "ImGUI/imgui_impl_win32.h"
-#include <filesystem>
-#include "Tools/json.hpp"
-#include <fstream>
+#include <math.h>
+
 bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	unsigned someWidth, unsigned someHeight,
 	bool enableDeviceDebug)
@@ -62,17 +58,16 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	f >> data;
 	myClearColor = { data["Color"]["r"], data["Color"]["g"], data["Color"]["b"], data["Color"]["a"]};
 
+
 	myModelAssetHandler.Initialize();
 	myScene->SetCamera(myCamera);
 
 	ps = ParticleAssetHandler::GetParticleSystem(L"TestSystem.json");
 	ps->SetLocation2({ 50.0f,0.0f,0.0f,1.0f });
 
-	//if (myModelAssetHandler.LoadModel("SM_Particle_Chest.fbx"))
-	//{
-	//	std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("SM_Particle_Chest.fbx");
-	//	myScene->AddGameObject(mdlChest);
-	//}
+	RECT clientRect = { 0,0,0,0 };
+	GetClientRect(myWindowHandle, &clientRect);
+	myGBuffer = std::make_shared<GBuffer>(clientRect.right - clientRect.left, clientRect.bottom - clientRect.top);
 
 	if (myModelAssetHandler.LoadModel("Particle_Chest.fbx"))
 	{
@@ -93,11 +88,19 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 
 	Vector4f color = { 1, 1, 1,1 };
 	Vector3f dir = { 1,1,1 };
-
+	
 	myDirectionalLight = LightAssetHandler::CreateDirectionalLight(color, 0.5f, dir);
 	myEnvironmentLight = LightAssetHandler::CreateEnvironmentLight(L"skansen_cubemap.dds");
+	myPointLight = LightAssetHandler::CreatePointLight({ 255,0,0 }, 100, 100, {0,0,0});
+
+	myScene->AddLight(myPointLight);
 
 	if (!myForwardRenderer.Initialize())
+	{
+		return false;
+	}
+
+	if (!myDeferredRenderer.Init())
 	{
 		return false;
 	}
@@ -134,6 +137,7 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	if (FAILED(result))
 	{
 		return false;
+
 	}
 
 	myDepthStencilStates[DepthStencilState::DSS_ReadWrite] = nullptr;
@@ -180,13 +184,23 @@ void GraphicsEngine::RenderFrame()
 	{
 		const std::shared_ptr<Camera> camera = myScene->GetMainCamera();
 		const std::vector<std::shared_ptr<ModelInstance>>& modelToRender = myScene->GetSceneObjects();
-		myForwardRenderer.RenderModels(camera, modelToRender, myDirectionalLight, myEnvironmentLight);
+		//myForwardRenderer.RenderModels(camera, modelToRender, myDirectionalLight, myEnvironmentLight);
+		myGBuffer->ClearResource(0);
+		myGBuffer->Clear();
+		myGBuffer->SetAsTarget();
+		myDeferredRenderer.GenerateGBuffer(camera, modelToRender, Timer::GetDeltaTime(), Timer::GetTotalTime());
+		
+		myGBuffer->ClearTarget();
+		myGBuffer->SetAsResource(0);
 
+		DX11::myContext->OMSetRenderTargets(1, DX11::myBackBuffer.GetAddressOf(), DX11::myDepthBuffer.Get());
+		SetDepthStencilState(DepthStencilState::DSS_ReadOnly);
+		myDeferredRenderer.Render(camera, myDirectionalLight, myEnvironmentLight);
 		SetBlendState(BlendState::BS_Additive);
 		SetDepthStencilState(DepthStencilState::DSS_ReadOnly);
 		myForwardRenderer.RenderParticles(camera, { ps });
-		SetBlendState(BlendState::BS_None);
 		SetDepthStencilState(DepthStencilState::DSS_ReadWrite);
+		SetBlendState(BlendState::BS_None);
 
 		ImGUIUpdate();
 		//ImGui::ShowDemoWindow();
@@ -215,6 +229,103 @@ void GraphicsEngine::SetDepthStencilState(DepthStencilState aDepthStencilState)
 	DX11::myContext->OMSetDepthStencilState(myDepthStencilStates[aDepthStencilState].Get(), 0);
 }
 
+void GraphicsEngine::BlendColor()
+{
+	ImGui::Begin("Color Blending");
+
+	static int selected = -1;
+	static int selected1 = -1;
+
+	if (ImGui::TreeNode("Presets 1"))
+	{
+		for (int n = 0; n < myColorPresets.size(); n++)
+		{
+			char buf1[32];
+			sprintf_s(buf1, myColorPresets[n].name.c_str(), n);
+			if (ImGui::Selectable(buf1, selected == n))
+				selected = n;
+		}
+		ImGui::TreePop();
+	}
+	if (selected != -1)
+	{
+		ImGui::SameLine();
+		ImGui::ColorButton("##color", { myColorPresets[selected].color.x, myColorPresets[selected].color.y, myColorPresets[selected].color.z, myColorPresets[selected].color.w, });
+	}
+
+	if (ImGui::TreeNode("Presets 2"))
+	{
+		for (int n = 0; n < myColorPresets.size(); n++)
+		{
+			char buf1[32];
+			sprintf_s(buf1, myColorPresets[n].name.c_str(), n);
+			if (ImGui::Selectable(buf1, selected1 == n))
+				selected1 = n;
+		}
+		ImGui::TreePop();
+	}
+	if (selected1 != -1)
+	{
+		ImGui::SameLine();
+		ImGui::ColorButton("##color1", { myColorPresets[selected1].color.x, myColorPresets[selected1].color.y, myColorPresets[selected1].color.z, myColorPresets[selected1].color.w, });
+	}
+
+	ImGui::SliderFloat("Blend Value", &myBlendInterpolation, 0, 1);
+	
+	Vector3f blendColor;
+	if (selected != -1 && selected1 != -1)
+	{
+		blendColor = { Lerp(myColorPresets[selected].color.x, myColorPresets[selected1].color.x, myBlendInterpolation),
+					   Lerp(myColorPresets[selected].color.y, myColorPresets[selected1].color.y, myBlendInterpolation),
+					   Lerp(myColorPresets[selected].color.z, myColorPresets[selected1].color.z, myBlendInterpolation) };
+	}
+	ImGui::ColorButton("Blended Color", { blendColor.x, blendColor.y, blendColor.z, 1 }, 0, { 100,100 });
+
+	if (ImGui::Button("Save Blended Color Preset"))
+	{
+		ColorPreset colorPreset;
+		colorPreset.color = { blendColor.x,blendColor.y,blendColor.z, 1 };
+
+		if (myPresetName.empty())
+		{
+			colorPreset.name = "Preset" + std::to_string(myColorPresets.size()) + " (blend)";
+			nlohmann::json file;
+			std::ifstream filestream("EngineSettings/Presets.json");
+
+			filestream >> file;
+
+			file["Presets"][colorPreset.name]["r"] = myClearColor[0];
+			file["Presets"][colorPreset.name]["g"] = myClearColor[1];
+			file["Presets"][colorPreset.name]["b"] = myClearColor[2];
+			file["Presets"][colorPreset.name]["a"] = myClearColor[3];
+
+			std::ofstream s("EngineSettings/Presets.json");
+			s << file;
+		}
+		else
+		{
+			colorPreset.name = myPresetName;
+
+			nlohmann::json file;
+			std::ifstream filestream("EngineSettings/Presets.json");
+
+			filestream >> file;
+
+			file["Presets"][colorPreset.name]["r"] = myClearColor[0];
+			file["Presets"][colorPreset.name]["g"] = myClearColor[1];
+			file["Presets"][colorPreset.name]["b"] = myClearColor[2];
+			file["Presets"][colorPreset.name]["a"] = myClearColor[3];
+
+			std::ofstream s("EngineSettings/Presets.json");
+			s << file;
+		}
+		myPresetName = "";
+		myColorPresets.push_back(colorPreset);
+	}
+
+	ImGui::End();
+}
+
 void GraphicsEngine::ImGUIUpdate()
 {
 	bool ImGUIWindowsOpen = true;
@@ -228,6 +339,75 @@ void GraphicsEngine::ImGUIUpdate()
 	myClearColor[1] = color[1];
 	myClearColor[2] = color[2];
 	myClearColor[3] = color[3];
+
+	static int selected1 = -1;
+
+	if (ImGui::TreeNode("Color Presets"))
+	{
+		for (int n = 0; n < myColorPresets.size(); n++)
+		{
+			char buf1[32];
+			sprintf_s(buf1, myColorPresets[n].name.c_str(), n);
+			if (ImGui::Selectable(buf1, selected1 == n))
+				selected1 = n;
+		}
+		ImGui::TreePop();
+	}
+
+	if (ImGui::Button("Blend Color"))
+	{
+		myIsBlending = !myIsBlending;
+	}
+
+
+	if (myIsBlending)
+	{
+		BlendColor();
+	}
+
+	ImGui::InputText("Preset Name", &myPresetName);
+
+	if (ImGui::Button("Save Color Preset"))
+	{
+		ColorPreset colorPreset;
+		colorPreset.color = { myClearColor[0],myClearColor[1] ,myClearColor[2], 1 };
+
+		if (myPresetName.empty())
+		{
+			colorPreset.name = "Preset" + std::to_string(myColorPresets.size());
+			nlohmann::json file;
+			std::ifstream filestream("EngineSettings/Presets.json");
+
+			filestream >> file;
+
+			file["Presets"][colorPreset.name]["r"] = myClearColor[0];
+			file["Presets"][colorPreset.name]["g"] = myClearColor[1];
+			file["Presets"][colorPreset.name]["b"] = myClearColor[2];
+			file["Presets"][colorPreset.name]["a"] = myClearColor[3];
+
+			std::ofstream s("EngineSettings/Presets.json");
+			s << file;
+		}
+		else
+		{
+			colorPreset.name = myPresetName;
+
+			nlohmann::json file;
+			std::ifstream filestream("EngineSettings/Presets.json");
+
+			filestream >> file;
+
+			file["Presets"][colorPreset.name]["r"] = myClearColor[0];
+			file["Presets"][colorPreset.name]["g"] = myClearColor[1];
+			file["Presets"][colorPreset.name]["b"] = myClearColor[2];
+			file["Presets"][colorPreset.name]["a"] = myClearColor[3];
+
+			std::ofstream s("EngineSettings/Presets.json");
+			s << file;
+		}
+		myPresetName = "";
+		myColorPresets.push_back(colorPreset);
+	}
 
 	if (ImGui::Button("Save Settings"))
 	{

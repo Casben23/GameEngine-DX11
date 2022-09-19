@@ -153,6 +153,18 @@
     <ClInclude Include="DeferredRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImGUI\misc\cpp\imgui_stdlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\misc\single_file\imgui_single_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsEngine.pch.cpp">
@@ -254,6 +266,18 @@
     <ClCompile Include="DeferredRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImGUI\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\misc\fonts\binary_to_compressed_c.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\Temporary\DefaultPS.cso">
@@ -271,6 +295,8 @@
     <None Include="ImGUI\.gitignore" />
     <None Include="Shaders\PBRFunctions.hlsli" />
     <None Include="Shaders\Common.hlsli" />
+    <None Include="ImGUI\misc\debuggers\imgui.gdb" />
+    <None Include="ImGUI\misc\debuggers\imgui.natstepfilter" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShader.hlsl" />
@@ -279,5 +305,10 @@
     <FxCompile Include="Shaders\ParticleVS.hlsl" />
     <FxCompile Include="Shaders\ParticlePS.hlsl" />
     <FxCompile Include="Shaders\GBufferPS.hlsl" />
+    <FxCompile Include="Shaders\FullscreenVS.hlsl" />
+    <FxCompile Include="Shaders\EnvironmentPS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="ImGUI\misc\debuggers\imgui.natvis" />
   </ItemGroup>
 </Project>

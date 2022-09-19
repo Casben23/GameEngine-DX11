@@ -4,6 +4,9 @@ SamplerState defaultSampler : register(s0);
 Texture2D albedoTexture : register(t0);
 Texture2D normalTexture : register(t1);
 Texture2D materialTexture : register(t2);
+Texture2D vertexNormalTexture : register(t3);
+Texture2D worldPositionTexture : register(t4);
+Texture2D ambientOcclusionTexture : register(t5);
 
 TextureCube environmentTexture : register(t10);
 
@@ -38,6 +41,22 @@ cbuffer LightBuffer : register(b3)
 	float3 LB_Direction;
 	float LB_padding;
 }
+
+struct DeferredPixelOutput
+{
+    float4 myColor : SV_TARGET;
+};
+
+struct DeferredVertexInput
+{
+    unsigned int myIndex : SV_VertexID;
+};
+
+struct DeferredVertexToPixel
+{
+    float4 Position : SV_Position;
+    float2 UV : TEXCOORD;
+};
 
 struct GBufferOutput
 {

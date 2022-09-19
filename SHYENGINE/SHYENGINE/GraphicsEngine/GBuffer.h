@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <wrl.h>
+#include "DX11.h"
 using namespace Microsoft::WRL;
 
 class GBuffer
@@ -17,6 +18,8 @@ public:
 		GB_AMBIENTOCCULUSION,
 		GB_COUNT
 	};
+
+	GBuffer(float aWidth, float aHeight);
 
 	void SetAsTarget() const;
 	void ClearTarget() const;

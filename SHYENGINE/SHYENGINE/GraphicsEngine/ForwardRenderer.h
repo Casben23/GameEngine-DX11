@@ -8,11 +8,21 @@
 #include "Light.h"
 #include "DirectionalLight.h"
 #include "EnvironmentLight.h"
+constexpr UINT MAX_FORWARD_LIGHTS = 8;
 
 class ParticleSystem;
 
 class ForwardRenderer
 {
+	struct SceneLightBuffer
+	{
+		Light::LightBufferData myDirectionalLight;
+		Light::LightBufferData Lights[MAX_FORWARD_LIGHTS];
+		unsigned int myNumLights;
+		Vector3f Padding;
+	} mySceneLightBufferData;
+
+
 	struct FrameBufferData
 	{
 		Matrix4x4f View;

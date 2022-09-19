@@ -64,7 +64,6 @@ bool DX11::Initialize(HWND aWindowHandle, bool enableDeviceDebug)
 
 	RECT clientRect = { 0,0,0,0 };
 	GetClientRect(aWindowHandle, &clientRect);
-
 	ComPtr<ID3D11Texture2D> depthBufferTexture;
 	D3D11_TEXTURE2D_DESC depthBufferDesc = { 0 };
 	depthBufferDesc.Width = clientRect.right - clientRect.left;
@@ -73,6 +72,7 @@ bool DX11::Initialize(HWND aWindowHandle, bool enableDeviceDebug)
 	depthBufferDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	depthBufferDesc.SampleDesc.Count = 1;
 	depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
 
 	result = myDevice->CreateTexture2D(&depthBufferDesc, nullptr, depthBufferTexture.GetAddressOf());
 

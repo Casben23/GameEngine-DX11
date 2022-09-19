@@ -8,7 +8,7 @@ GBufferOutput main(VertexToPixel input)
     
     if (albedo.a <= 0.05f)
     {
-        return false;
+        return result;
     }
     
     const float3 normalMap = normalTexture.Sample(defaultSampler, input.myUV).agb;

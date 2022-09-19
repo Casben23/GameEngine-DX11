@@ -38,7 +38,9 @@ class DeferredRenderer
 	Microsoft::WRL::ComPtr<ID3D11Buffer> myMaterialBuffer;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> myLightBuffer;
 
+	Microsoft::WRL::ComPtr<ID3D11PixelShader> myEnvironmentShader;
 	Microsoft::WRL::ComPtr<ID3D11PixelShader> myGBufferShader;
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> myFullscreenShader;
 
 public:
 	bool Init();

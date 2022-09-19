@@ -3,6 +3,15 @@
   <ProjectOutputs />
   <ContentFiles>
     <ContentFile>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\EnvironmentPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\FullscreenVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\GBufferPS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\ParticleGS.cso</FullPath>
     </ContentFile>
     <ContentFile>

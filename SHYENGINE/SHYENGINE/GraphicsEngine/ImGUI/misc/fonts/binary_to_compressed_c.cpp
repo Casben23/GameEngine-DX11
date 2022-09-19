@@ -21,6 +21,7 @@
 //   # binary_to_compressed_c.exe -base85 myfont.ttf MyFont > myfont.cpp
 
 #define _CRT_SECURE_NO_WARNINGS
+#include "GraphicsEngine.pch.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -71,8 +72,14 @@ char Encode85Byte(unsigned int x)
 
 bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_base85_encoding, bool use_compression, bool use_static)
 {
+#pragma warning(disable : 4996)
+#define _CRT_SECURE_NO_WARNINGS
     // Read file
     FILE* f = fopen(filename, "rb");
+#undef _CRT_SECURE_NO_WARNINGS
+#pragma warning(default : 4996)
+
+
     if (!f) return false;
     int data_sz;
     if (fseek(f, 0, SEEK_END) || (data_sz = (int)ftell(f)) == -1 || fseek(f, 0, SEEK_SET)) { fclose(f); return false; }
