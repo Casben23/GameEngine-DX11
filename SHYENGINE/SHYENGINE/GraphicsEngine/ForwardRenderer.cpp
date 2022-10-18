@@ -43,7 +43,7 @@ bool ForwardRenderer::Initialize()
 	return true;
 }
 
-void ForwardRenderer::RenderModels(const std::shared_ptr<Camera>& aCamera, const std::vector<std::shared_ptr<ModelInstance>>& aModelList, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight)
+void ForwardRenderer::RenderModels(const std::shared_ptr<Camera>& aCamera, const std::vector<std::shared_ptr<ModelInstance>>& aModelList, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight, const std::vector<std::shared_ptr<Light>> aLightList)
 {
 	HRESULT result = S_FALSE;
 	D3D11_MAPPED_SUBRESOURCE bufferData; 
@@ -76,8 +76,10 @@ void ForwardRenderer::RenderModels(const std::shared_ptr<Camera>& aCamera, const
 	mySceneLightBufferData.myNumLights = 0;
 	ZeroMemory(mySceneLightBufferData.Lights, sizeof(Light::LightBufferData) * MAX_FORWARD_LIGHTS);
 
-	for (size_t l = 0; l < aLight)
+	for (size_t l = 0; l < aLightList.size() && l < MAX_FORWARD_LIGHTS; l++)
 	{
+		mySceneLightBufferData.Lights[l] = aLightList[l]->GetLightBufferData();
+		mySceneLightBufferData.myNumLights++;
 	}
 
 	for (const std::shared_ptr<ModelInstance>& model : aModelList)

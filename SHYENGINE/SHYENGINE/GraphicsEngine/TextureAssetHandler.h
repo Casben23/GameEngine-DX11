@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include <unordered_map>
 #include "DDSTextureLoader11.h"
+#include "DepthStencil.h"
 
 class TextureAssetHandler
 {
@@ -11,6 +12,8 @@ class TextureAssetHandler
 	inline static myTextureMap myRegistry;
 
 public:
+
+	static std::unique_ptr<DepthStencil> CreateDepthStencil(const std::wstring& aName, size_t aWidth, size_t aHeight);
 	static std::shared_ptr<Texture> GetTexture(const std::wstring& aName);
 	static bool LoadTexture(const std::wstring& aFileName);
 

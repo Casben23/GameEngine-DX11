@@ -55,7 +55,6 @@ namespace CommonUtilities
 	//Returns the vector aVector divided by the scalar aScalar (equivalent to aVector multiplied by 1 / aScalar)
 	template <class T> Vector2<T> operator/(const Vector2<T>& aVector, const T& aScalar)
 	{
-		assert(aScalar != 0, "Scalar cant be 0");
 		return Vector2<T>(aVector.x / aScalar, aVector.y / aScalar);
 	}
 	//Equivalent to setting aVector0 to (aVector0 + aVector1)
@@ -79,7 +78,6 @@ namespace CommonUtilities
 	//Equivalent to setting aVector to (aVector / aScalar)
 	template <class T> void operator/=(Vector2<T>& aVector, const T& aScalar)
 	{
-		assert(aScalar != 0, "Scalar cant be 0");
 		aVector.x = aVector.x / aScalar;
 		aVector.y = aVector.y / aScalar;
 	}
@@ -110,7 +108,6 @@ namespace CommonUtilities
 	inline Vector2<T> Vector2<T>::GetNormalized() const
 	{
 		Vector2<T> tmp(x, y);
-		assert(tmp.x != 0 && tmp.y != 0, "Cant normalize a Vector Zero");
 		tmp.Normalize();
 		return tmp;
 	}
@@ -118,7 +115,6 @@ namespace CommonUtilities
 	inline void Vector2<T>::Normalize()
 	{
 		Vector2<T> temp(x, y);
-		assert(temp.x != 0 && temp.y != 0, "Cant normalize a Vector Zero");
 		temp *= 1 / temp.Length();
 		x = temp.x;
 		y = temp.y;

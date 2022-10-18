@@ -16,6 +16,7 @@
 #include "ImGUI/imgui_impl_dx11.h"
 #include "ImGUI/imgui_impl_win32.h"
 #include "ImGUI/misc/cpp/imgui_stdlib.h"
+#include "ShadowRenderer.h"
 
 enum BlendState
 {
@@ -23,6 +24,13 @@ enum BlendState
 	BS_AlphaBlend,
 	BS_Additive,
 	BS_COUNT
+};
+
+enum SamplerState
+{
+	SS_Default,
+	SS_PointClamp,
+	SS_COUNT
 };
 
 enum DepthStencilState
@@ -36,6 +44,14 @@ struct ColorPreset
 {
 	Vector4f color;
 	std::string name;
+};
+
+struct ColorBlendPreset
+{
+	Vector4f firstColor = { 0,0,0,1 };
+	Vector4f secondColor = { 0,0,0,1 };
+	float interpolateValue = 0;
+	std::string name = "Blend";
 };
 
 class GraphicsEngine
@@ -59,6 +75,7 @@ public:
 
 	ForwardRenderer myForwardRenderer;
 	DeferredRenderer myDeferredRenderer;
+	ShadowRenderer myShadowRenderer;
 
 	std::shared_ptr<GBuffer> myGBuffer;
 
@@ -66,6 +83,8 @@ public:
 
 	std::shared_ptr<DirectionalLight> myDirectionalLight;
 	std::shared_ptr<EnvironmentLight> myEnvironmentLight;
+
+	std::shared_ptr<SpotLight> mySpotLight;
 	std::shared_ptr<PointLight> myPointLight;
 	
 	std::shared_ptr<Camera> myCamera;
@@ -77,6 +96,7 @@ public:
 
 	void SetBlendState(BlendState aBlendState);
 	void SetDepthStencilState(DepthStencilState aDepthStencilState);
+	void SetSamplerState(SamplerState aState, int aSlot);
 
 	void BlendColor();
 
@@ -87,6 +107,7 @@ private:
 
 	bool ShowImGUIWindow = false;
 
+	std::vector<ColorBlendPreset> myBlendColorPresets;
 	std::vector<ColorPreset> myColorPresets;
 	Vector3f myFirstBlendColor = { 0,0,0 };
 	Vector3f mySecondBlendColor = { 0,0,0 };
@@ -98,6 +119,7 @@ private:
 	std::shared_ptr<ModelInstance> mySelectedSceneObject;
 
 	std::array<ComPtr<ID3D11BlendState>, static_cast<unsigned>(BlendState::BS_COUNT)> myBlendStates;
+	std::array<ComPtr<ID3D11SamplerState>, static_cast<unsigned>(SamplerState::SS_COUNT)> mySamplerStates;
 	std::array<ComPtr<ID3D11DepthStencilState>, static_cast<unsigned>(DepthStencilState::DSS_COUNT)> myDepthStencilStates;
 
 };

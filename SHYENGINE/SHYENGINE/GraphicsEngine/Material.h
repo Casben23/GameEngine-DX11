@@ -42,6 +42,7 @@ public:
 	void SetAsResource(ComPtr<ID3D11Resource> aMaterialBuffer);
 
 private:
+
 	MaterialData myMaterialData;
 	std::array<std::shared_ptr<Texture>, MaterialTextureChannel::Count> myTextures;
 };

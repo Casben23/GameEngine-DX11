@@ -1,0 +1,3 @@
+﻿  Modelviewer.cpp
+LINK : fatal error C1047: The object or library file 'C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Lib\Release\TGAFBXImporter.lib' was created by a different version of the compiler than other objects like 'C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Intermediate\Modelviewer\Release\Modelviewer.obj'; rebuild all objects and libraries with the same compiler
+LINK : fatal error LNK1257: code generation failed

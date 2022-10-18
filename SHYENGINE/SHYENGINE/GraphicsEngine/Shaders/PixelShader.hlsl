@@ -1,6 +1,6 @@
-
-#include "ParticleStructs.hlsli"
 #include "PBRFunctions.hlsli"
+#include "LightBuffer.hlsli"
+#include "ParticleStructs.hlsli"
 
 PixelOutput main(VertexToPixel input)
 {
@@ -31,11 +31,32 @@ PixelOutput main(VertexToPixel input)
     const float3 diffuseColor = lerp((float3) 0.00f, albedo, 1 - metalness);
     
     const float3 ambientLighting = EvaluateAmbience(environmentTexture, pixelNormal, input.myNormal, toEye, roughness, ambientOcclusion, diffuseColor, specularColor);
-    const float3 directLighting = EvaluateDirectionalLight(diffuseColor, specularColor, pixelNormal, roughness, LB_Color, LB_Intensity, -LB_Direction, toEye);
+    const float3 directLighting = EvaluateDirectionalLight(diffuseColor, specularColor, pixelNormal, roughness, LB_DirectionalLight.Color, LB_DirectionalLight.Intensity, -LB_DirectionalLight.Direction, toEye);
     
-    result.myColor.rgb = saturate(ambientLighting + directLighting) + albedo * emissive * emissiveStr;
+    float3 pointLight = 0;
+    float3 spotLight = 0;
     
-    result.myColor.rgb = LinearToGamma(result.myColor.rgb); 
+    for (unsigned int l = 0; l < LB_NumLights; l++)
+    {
+        const LightData Light = LB_Lights[l];
+        switch (Light.LightType)
+        {
+            default:
+                break;
+            case 0:
+                break;
+            case 1:
+                pointLight += EvaluatePointLight(diffuseColor, specularColor, pixelNormal, material.g, Light.Color, Light.Intensity, Light.Range, Light.Position, toEye, input.myVxPosition.xyz);
+                break;
+            case 2:
+                spotLight += EvaluateSpotLight(diffuseColor, specularColor, pixelNormal, material.g, Light.Color, Light.Intensity, Light.Range, Light.Position, Light.Direction, Light.SpotOuterRadius, Light.SpotInnerRadius, toEye, input.myVxPosition.xyz);
+                break;
+
+        }
+    }
+    
+    
+    result.myColor.rgb = LinearToGamma(directLighting + ambientLighting + emissive + pointLight + spotLight);
     result.myColor.a = 1;
 
     return result;

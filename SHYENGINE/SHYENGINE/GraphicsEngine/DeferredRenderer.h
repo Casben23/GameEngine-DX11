@@ -8,9 +8,19 @@
 #include "Light.h"
 #include "DirectionalLight.h"
 #include "EnvironmentLight.h"
+constexpr UINT MAX_DEFERRED_LIGHTS = 8;
 
 class DeferredRenderer
 {
+	struct SceneLightBuffer
+	{
+		Light::LightBufferData myDirectionalLight;
+		Light::LightBufferData myLights[MAX_DEFERRED_LIGHTS];
+
+		unsigned int myNumLights;
+		Vector3f Padding;
+	}mySceneLightBufferData;
+
 	struct FrameBufferData
 	{
 		Matrix4x4f View;
@@ -45,7 +55,7 @@ class DeferredRenderer
 public:
 	bool Init();
 
-	void Render(const std::shared_ptr<Camera>& aCamera, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight);
+	void Render(const std::shared_ptr<Camera>& aCamera, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight, std::vector<std::shared_ptr<Light>> aLightList);
 
 	void GenerateGBuffer(
 		const std::shared_ptr<Camera>& aCamera,

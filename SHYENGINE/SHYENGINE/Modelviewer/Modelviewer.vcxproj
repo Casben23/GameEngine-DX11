@@ -152,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;TGAFBXImporter.lib;CommonUtillies-r.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;TGAFBXImporter.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

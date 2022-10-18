@@ -3,6 +3,7 @@
 
 void PointLight::SetRange(float aRange)
 {
+	myLightBufferData.myRange = aRange;
 }
 
 void PointLight::SetAsResource(ComPtr<ID3D11Buffer> aLightBuffer)
@@ -26,5 +27,4 @@ void PointLight::SetAsResource(ComPtr<ID3D11Buffer> aLightBuffer)
 
 	DX11::myContext->Unmap(aLightBuffer.Get(), 0);
 	DX11::myContext->PSSetConstantBuffers(3, 1, aLightBuffer.GetAddressOf());
-
 }

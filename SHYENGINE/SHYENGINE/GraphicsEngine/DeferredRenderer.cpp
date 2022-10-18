@@ -32,13 +32,13 @@ bool DeferredRenderer::Init()
 		return false;
 	}
 
-	bufferDescription.ByteWidth = sizeof(Light::LightBufferData);
+	bufferDescription.ByteWidth = sizeof(SceneLightBuffer);
 	result = DX11::myDevice->CreateBuffer(&bufferDescription, nullptr, myLightBuffer.GetAddressOf());
 	if (FAILED(result))
 	{
 		return false;
 	}
-
+	
 	std::ifstream psFile;
 	psFile.open("GBufferPS.cso", std::ios::binary);
 	std::string vsData = { std::istreambuf_iterator<char>(psFile), std::istreambuf_iterator<char>() };
@@ -73,7 +73,7 @@ bool DeferredRenderer::Init()
 	return true;
 }
 
-void DeferredRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight)
+void DeferredRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std::shared_ptr<DirectionalLight>& aDirectionalLight, const std::shared_ptr<EnvironmentLight>& anEnvironmentLight, std::vector<std::shared_ptr<Light>> aLightList)
 {
 	HRESULT result = S_FALSE;
 	D3D11_MAPPED_SUBRESOURCE bufferData;
@@ -94,13 +94,35 @@ void DeferredRenderer::Render(const std::shared_ptr<Camera>& aCamera, const std:
 
 	if (aDirectionalLight)
 	{
-		aDirectionalLight->SetAsResource(myLightBuffer);
+		mySceneLightBufferData.myDirectionalLight = aDirectionalLight->GetLightBufferData();
 	}
 
 	if (anEnvironmentLight)
 	{
 		anEnvironmentLight->SetAsResource(nullptr);
 	}
+
+
+	mySceneLightBufferData.myNumLights = 0;
+	ZeroMemory(mySceneLightBufferData.myLights, sizeof(Light::LightBufferData) * MAX_DEFERRED_LIGHTS);
+
+	for (size_t l = 0; l < aLightList.size() && l < MAX_DEFERRED_LIGHTS; l++)
+	{
+		mySceneLightBufferData.myLights[l] = aLightList[l]->GetLightBufferData();
+		mySceneLightBufferData.myNumLights++;
+	}
+
+	ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
+	result = DX11::myContext->Map(myLightBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
+
+	if (FAILED(result))
+	{
+		//eyoo
+	}
+
+	memcpy_s(bufferData.pData, sizeof(SceneLightBuffer), &mySceneLightBufferData, sizeof(SceneLightBuffer));
+	DX11::myContext->Unmap(myLightBuffer.Get(), 0);
+	DX11::myContext->PSSetConstantBuffers(3, 1, myLightBuffer.GetAddressOf());
 
 	DX11::myContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	DX11::myContext->IASetInputLayout(nullptr);
@@ -137,7 +159,7 @@ void DeferredRenderer::GenerateGBuffer(
 
 	DX11::myContext->VSSetConstantBuffers(0, 1, myFrameBuffer.GetAddressOf());
 	DX11::myContext->PSSetConstantBuffers(0, 1, myFrameBuffer.GetAddressOf());
-
+	
 	for (const std::shared_ptr<ModelInstance>& model : aModelList) 
 	{
 		for(unsigned int m = 0; m < model->GetNumMeshes(); m++)

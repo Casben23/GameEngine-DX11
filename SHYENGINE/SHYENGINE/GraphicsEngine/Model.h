@@ -66,8 +66,11 @@ public:
 	FORCEINLINE size_t const GetNumMeshes() { return myMeshData.size(); }
 	FORCEINLINE std::wstring const& GetName() const { return myName; }
 
+	friend class ShadowRenderer;
+
 private:
 	
+
 	Skeleton mySkeleton;
 
 	std::vector<MeshData> myMeshData;

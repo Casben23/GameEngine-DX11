@@ -1,4 +1,3 @@
-
 SamplerState defaultSampler : register(s0);
 
 Texture2D albedoTexture : register(t0);
@@ -33,14 +32,6 @@ cbuffer MaterialBuffer : register(b2)
 	float3 MB_Normal;
 	float padding2;
 } 
-
-cbuffer LightBuffer : register(b3) 
-{
-	float4 LB_Color;
-	float LB_Intensity;
-	float3 LB_Direction;
-	float LB_padding;
-}
 
 struct DeferredPixelOutput
 {

@@ -148,7 +148,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -175,6 +175,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DDSTextureLoader11.h" />
     <ClInclude Include="DeferredRenderer.h" />
+    <ClInclude Include="DepthStencil.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DX11.h" />
     <ClInclude Include="EnvironmentLight.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ShadowRenderer.h" />
     <ClInclude Include="Skeleton.hpp" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Texture.h" />
@@ -225,6 +227,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DDSTextureLoader11.cpp" />
     <ClCompile Include="DeferredRenderer.cpp" />
+    <ClCompile Include="DepthStencil.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DX11.cpp" />
     <ClCompile Include="EnvironmentLight.cpp" />
@@ -273,6 +276,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="ShadowRenderer.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureAssetHandler.cpp" />
@@ -298,6 +302,7 @@
     <None Include="ImGUI\misc\debuggers\imgui.gdb" />
     <None Include="ImGUI\misc\debuggers\imgui.natstepfilter" />
     <None Include="Shaders\Common.hlsli" />
+    <None Include="Shaders\LightBuffer.hlsli" />
     <None Include="Shaders\ParticleStructs.hlsli" />
     <None Include="Shaders\PBRFunctions.hlsli" />
     <None Include="Shaders\ShaderStructs.hlsli" />

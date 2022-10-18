@@ -56,7 +56,7 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	nlohmann::json data;
 	std::ifstream f("EngineSettings/Settings.json");
 	f >> data;
-	myClearColor = { data["Color"]["r"], data["Color"]["g"], data["Color"]["b"], data["Color"]["a"]};
+	myClearColor = { data["Color"]["r"], data["Color"]["g"], data["Color"]["b"], data["Color"]["a"] };
 
 
 	myModelAssetHandler.Initialize();
@@ -74,7 +74,16 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 		std::shared_ptr<ModelInstance> mdlChest = myModelAssetHandler.GetModelInstance("Particle_Chest.fbx");
 		mdlChest->SetName("Chest");
 		myScene->AddGameObject(mdlChest);
-		mdlChest->GetTransform().SetPosition(100, 0, 100);
+		mdlChest->GetTransform().SetPosition(100, -200, 100);
+	}
+
+	if (myModelAssetHandler.LoadModel("Cube.fbx"))
+	{
+		std::shared_ptr<ModelInstance> cube = myModelAssetHandler.GetModelInstance("Cube.fbx");
+		cube->SetName("Cube");
+		myScene->AddGameObject(cube);
+		cube->GetTransform().SetPosition(100, -200, 100);
+		cube->GetTransform().SetScale(100,100,100);
 	}
 
 	if (myModelAssetHandler.LoadModel("gremlin_sk.fbx", "gremlin@walk.fbx"))
@@ -88,19 +97,24 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 
 	Vector4f color = { 1, 1, 1,1 };
 	Vector3f dir = { 1,1,1 };
-	
+
 	myDirectionalLight = LightAssetHandler::CreateDirectionalLight(color, 0.5f, dir);
 	myEnvironmentLight = LightAssetHandler::CreateEnvironmentLight(L"skansen_cubemap.dds");
-	myPointLight = LightAssetHandler::CreatePointLight({ 255,0,0 }, 100, 100, {0,0,0});
-
+	myPointLight = LightAssetHandler::CreatePointLight({ 255,0,0 }, 1000, 100, { 0,50,0 });
+	mySpotLight = LightAssetHandler::CreateSpotLight({ 0,255,0 }, 1000, 10000, 100, 1000, {0,50,0});
 	myScene->AddLight(myPointLight);
-
+	myScene->AddLight(mySpotLight);
 	if (!myForwardRenderer.Initialize())
 	{
 		return false;
 	}
 
 	if (!myDeferredRenderer.Init())
+	{
+		return false;
+	}
+
+	if (!myShadowRenderer.Initialize())
 	{
 		return false;
 	}
@@ -185,22 +199,31 @@ void GraphicsEngine::RenderFrame()
 		const std::shared_ptr<Camera> camera = myScene->GetMainCamera();
 		const std::vector<std::shared_ptr<ModelInstance>>& modelToRender = myScene->GetSceneObjects();
 		//myForwardRenderer.RenderModels(camera, modelToRender, myDirectionalLight, myEnvironmentLight);
-		myGBuffer->ClearResource(0);
+
 		myGBuffer->Clear();
+		myGBuffer->ClearResource(0);
 		myGBuffer->SetAsTarget();
+
 		myDeferredRenderer.GenerateGBuffer(camera, modelToRender, Timer::GetDeltaTime(), Timer::GetTotalTime());
+		myShadowRenderer.Render(myDirectionalLight, modelToRender);
 		
+		const std::vector<std::shared_ptr<Light>> lights = myScene->GetLights();
+		myDirectionalLight->ClearShadowMap();
+		myDirectionalLight->SetShadowMapAsDepth();
+
 		myGBuffer->ClearTarget();
 		myGBuffer->SetAsResource(0);
-
 		DX11::myContext->OMSetRenderTargets(1, DX11::myBackBuffer.GetAddressOf(), DX11::myDepthBuffer.Get());
+
+
 		SetDepthStencilState(DepthStencilState::DSS_ReadOnly);
-		myDeferredRenderer.Render(camera, myDirectionalLight, myEnvironmentLight);
+		myDeferredRenderer.Render(camera, myDirectionalLight, myEnvironmentLight, lights);
 		SetBlendState(BlendState::BS_Additive);
 		SetDepthStencilState(DepthStencilState::DSS_ReadOnly);
 		myForwardRenderer.RenderParticles(camera, { ps });
 		SetDepthStencilState(DepthStencilState::DSS_ReadWrite);
 		SetBlendState(BlendState::BS_None);
+
 
 		ImGUIUpdate();
 		//ImGui::ShowDemoWindow();
@@ -229,99 +252,97 @@ void GraphicsEngine::SetDepthStencilState(DepthStencilState aDepthStencilState)
 	DX11::myContext->OMSetDepthStencilState(myDepthStencilStates[aDepthStencilState].Get(), 0);
 }
 
+void GraphicsEngine::SetSamplerState(SamplerState aState, int aSlot)
+{
+}
+
 void GraphicsEngine::BlendColor()
 {
 	ImGui::Begin("Color Blending");
 
-	static int selected = -1;
-	static int selected1 = -1;
-
-	if (ImGui::TreeNode("Presets 1"))
+	if (ImGui::Button("Create New Blend"))
 	{
-		for (int n = 0; n < myColorPresets.size(); n++)
+		ColorBlendPreset colorBlend;
+		colorBlend.name = "Blend" + std::to_string(myBlendColorPresets.size());
+		myBlendColorPresets.push_back(colorBlend);
+	}
+
+	static int selected = -1;
+
+	if (ImGui::TreeNode("Blends"))
+	{
+		for (int n = 0; n < myBlendColorPresets.size(); n++)
 		{
 			char buf1[32];
-			sprintf_s(buf1, myColorPresets[n].name.c_str(), n);
+			sprintf_s(buf1, myBlendColorPresets[n].name.c_str(), n);
 			if (ImGui::Selectable(buf1, selected == n))
 				selected = n;
 		}
 		ImGui::TreePop();
 	}
+
 	if (selected != -1)
 	{
-		ImGui::SameLine();
-		ImGui::ColorButton("##color", { myColorPresets[selected].color.x, myColorPresets[selected].color.y, myColorPresets[selected].color.z, myColorPresets[selected].color.w, });
+		float color1[3] = {myBlendColorPresets[selected].firstColor.x, myBlendColorPresets[selected].firstColor.y, myBlendColorPresets[selected].firstColor.z };
+		float color2[3] = {myBlendColorPresets[selected].secondColor.x, myBlendColorPresets[selected].secondColor.y, myBlendColorPresets[selected].secondColor.z };
+		ImGui::ColorEdit3("First Color", color1);
+		ImGui::ColorEdit3("Second Color", color2);
+		ImGui::SliderFloat("Blend Value", &myBlendColorPresets[selected].interpolateValue, 0, 1);
+
+		myBlendColorPresets[selected].firstColor = { color1[0], color1[1], color1[2], 1 };
+		myBlendColorPresets[selected].secondColor = { color2[0], color2[1], color2[2], 1 };
 	}
 
-	if (ImGui::TreeNode("Presets 2"))
-	{
-		for (int n = 0; n < myColorPresets.size(); n++)
-		{
-			char buf1[32];
-			sprintf_s(buf1, myColorPresets[n].name.c_str(), n);
-			if (ImGui::Selectable(buf1, selected1 == n))
-				selected1 = n;
-		}
-		ImGui::TreePop();
-	}
-	if (selected1 != -1)
-	{
-		ImGui::SameLine();
-		ImGui::ColorButton("##color1", { myColorPresets[selected1].color.x, myColorPresets[selected1].color.y, myColorPresets[selected1].color.z, myColorPresets[selected1].color.w, });
-	}
 
-	ImGui::SliderFloat("Blend Value", &myBlendInterpolation, 0, 1);
-	
 	Vector3f blendColor;
-	if (selected != -1 && selected1 != -1)
+	if (selected != -1)
 	{
-		blendColor = { Lerp(myColorPresets[selected].color.x, myColorPresets[selected1].color.x, myBlendInterpolation),
-					   Lerp(myColorPresets[selected].color.y, myColorPresets[selected1].color.y, myBlendInterpolation),
-					   Lerp(myColorPresets[selected].color.z, myColorPresets[selected1].color.z, myBlendInterpolation) };
+		blendColor = { Lerp(myBlendColorPresets[selected].firstColor.x, myBlendColorPresets[selected].secondColor.x, myBlendColorPresets[selected].interpolateValue),
+					   Lerp(myBlendColorPresets[selected].firstColor.y, myBlendColorPresets[selected].secondColor.y, myBlendColorPresets[selected].interpolateValue),
+					   Lerp(myBlendColorPresets[selected].firstColor.z, myBlendColorPresets[selected].secondColor.z, myBlendColorPresets[selected].interpolateValue) };
 	}
 	ImGui::ColorButton("Blended Color", { blendColor.x, blendColor.y, blendColor.z, 1 }, 0, { 100,100 });
 
-	if (ImGui::Button("Save Blended Color Preset"))
-	{
-		ColorPreset colorPreset;
-		colorPreset.color = { blendColor.x,blendColor.y,blendColor.z, 1 };
+	//if (ImGui::Button("Save Blended Color Preset"))
+	//{
+	//	ColorBlendPreset blendPreset;
 
-		if (myPresetName.empty())
-		{
-			colorPreset.name = "Preset" + std::to_string(myColorPresets.size()) + " (blend)";
-			nlohmann::json file;
-			std::ifstream filestream("EngineSettings/Presets.json");
+	//	if (myPresetName.empty())
+	//	{
+	//		blendPreset.name = "Preset" + std::to_string(myColorPresets.size()) + " (blend)";
+	//		nlohmann::json file;
+	//		std::ifstream filestream("EngineSettings/Presets.json");
 
-			filestream >> file;
+	//		filestream >> file;
 
-			file["Presets"][colorPreset.name]["r"] = myClearColor[0];
-			file["Presets"][colorPreset.name]["g"] = myClearColor[1];
-			file["Presets"][colorPreset.name]["b"] = myClearColor[2];
-			file["Presets"][colorPreset.name]["a"] = myClearColor[3];
+	//		file["Presets"][blendPreset.name]["r"] = myClearColor[0];
+	//		file["Presets"][blendPreset.name]["g"] = myClearColor[1];
+	//		file["Presets"][blendPreset.name]["b"] = myClearColor[2];
+	//		file["Presets"][blendPreset.name]["a"] = myClearColor[3];
 
-			std::ofstream s("EngineSettings/Presets.json");
-			s << file;
-		}
-		else
-		{
-			colorPreset.name = myPresetName;
+	//		std::ofstream s("EngineSettings/Presets.json");
+	//		s << file;
+	//	}
+	//	else
+	//	{
+	//		blendPreset.name = myPresetName;
 
-			nlohmann::json file;
-			std::ifstream filestream("EngineSettings/Presets.json");
+	//		nlohmann::json file;
+	//		std::ifstream filestream("EngineSettings/Presets.json");
 
-			filestream >> file;
+	//		filestream >> file;
 
-			file["Presets"][colorPreset.name]["r"] = myClearColor[0];
-			file["Presets"][colorPreset.name]["g"] = myClearColor[1];
-			file["Presets"][colorPreset.name]["b"] = myClearColor[2];
-			file["Presets"][colorPreset.name]["a"] = myClearColor[3];
+	//		file["Presets"][blendPreset.name]["r"] = myClearColor[0];
+	//		file["Presets"][blendPreset.name]["g"] = myClearColor[1];
+	//		file["Presets"][blendPreset.name]["b"] = myClearColor[2];
+	//		file["Presets"][blendPreset.name]["a"] = myClearColor[3];
 
-			std::ofstream s("EngineSettings/Presets.json");
-			s << file;
-		}
-		myPresetName = "";
-		myColorPresets.push_back(colorPreset);
-	}
+	//		std::ofstream s("EngineSettings/Presets.json");
+	//		s << file;
+	//	}
+	//	myPresetName = "";
+	//	myBlendColorPresets.push_back(blendPreset);
+	//}
 
 	ImGui::End();
 }
@@ -340,19 +361,7 @@ void GraphicsEngine::ImGUIUpdate()
 	myClearColor[2] = color[2];
 	myClearColor[3] = color[3];
 
-	static int selected1 = -1;
-
-	if (ImGui::TreeNode("Color Presets"))
-	{
-		for (int n = 0; n < myColorPresets.size(); n++)
-		{
-			char buf1[32];
-			sprintf_s(buf1, myColorPresets[n].name.c_str(), n);
-			if (ImGui::Selectable(buf1, selected1 == n))
-				selected1 = n;
-		}
-		ImGui::TreePop();
-	}
+	static int selected2 = -1;
 
 	if (ImGui::Button("Blend Color"))
 	{
@@ -422,7 +431,7 @@ void GraphicsEngine::ImGUIUpdate()
 	}
 
 	ImGui::LabelText("", "Directional Light Settings");
-	ImGui::DragFloat("Intensity", &myDirectionalLight->GetIntensity(),.1f,0.f,100.f);
+	ImGui::DragFloat("Intensity", &myDirectionalLight->GetIntensity(), .1f, 0.f, 100.f);
 
 	float lightRot[3] = { myDirectionalLight->GetTransform().GetRotation().x,
 						 myDirectionalLight->GetTransform().GetRotation().y,
@@ -477,6 +486,46 @@ void GraphicsEngine::ImGUIUpdate()
 
 		ImGui::DragFloat3("Scale", scale, 1, -INT_MAX, INT_MAX);
 		myScene->GetSceneObjects()[selected]->GetTransform().SetScale(scale[0], scale[1], scale[2]);
+	}
+
+	ImGui::End();
+
+	ImGui::Begin("LightHeirarccyyy", &ImGUIWindowsOpen, ImGuiWindowFlags_MenuBar);
+	static int selectedLight = -1;
+	for (int n = 0; n < myScene->GetLights().size(); n++)
+	{
+		char buf[32];
+		sprintf_s(buf, "Light %d", n);
+
+		if (ImGui::Selectable(buf, selectedLight == n))
+			selectedLight = n;
+	}
+	ImGui::End();
+
+	ImGui::Begin("LightProps", &ImGUIWindowsOpen, ImGuiWindowFlags_MenuBar);
+
+	if (selectedLight >= 0)
+	{
+		float pos[3] = { myScene->GetLights()[selectedLight]->GetLightBufferData().myPosition.x,
+						 myScene->GetLights()[selectedLight]->GetLightBufferData().myPosition.y,
+						 myScene->GetLights()[selectedLight]->GetLightBufferData().myPosition.z };
+
+		ImGui::DragFloat3("LPosition", pos, 1, -INT_MAX, INT_MAX);
+		myScene->GetLights()[selectedLight]->GetTransform().SetPosition(pos[0], pos[1], pos[2]);
+
+		float rot[3] = { myScene->GetLights()[selectedLight]->GetTransform().GetRotation().x,
+						 myScene->GetLights()[selectedLight]->GetTransform().GetRotation().y,
+						 myScene->GetLights()[selectedLight]->GetTransform().GetRotation().z };
+
+		ImGui::DragFloat3("LRotation", rot, 0.05f, -INT_MAX, INT_MAX);
+		myScene->GetLights()[selectedLight]->GetTransform().SetRotation(rot[0], rot[1], rot[2]);
+
+		float scale[3] = { myScene->GetLights()[selectedLight]->GetTransform().GetScale().x,
+						 myScene->GetLights()[selectedLight]->GetTransform().GetScale().y,
+						 myScene->GetLights()[selectedLight]->GetTransform().GetScale().z };
+
+		ImGui::DragFloat3("LScale", scale, 1, -INT_MAX, INT_MAX);
+		myScene->GetLights()[selectedLight]->GetTransform().SetScale(scale[0], scale[1], scale[2]);
 	}
 
 	ImGui::End();

@@ -1,38 +1,26 @@
-﻿  ForwardRenderer.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+﻿  Camera.cpp
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(1): warning C4603: '_USE_MATH_DEFINES': macro is not defined or definition is different after precompiled header use
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(1): message : Add macro to precompiled header instead of defining here
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(2): message : use of precompiled header
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(15,39): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(15,22): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+  DeferredRenderer.cpp
+  DirectionalLight.cpp
+  EnvironmentLight.cpp
+  ForwardRenderer.cpp
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(14,1): warning C4099: 'ParticleSystemEmitter': type name first seen using 'class' now seen using 'struct'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(13): message : see declaration of 'ParticleSystemEmitter'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ForwardRenderer.cpp(96,58): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ForwardRenderer.cpp(98,58): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
   GraphicsEngine.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(14,1): warning C4099: 'ParticleSystemEmitter': type name first seen using 'class' now seen using 'struct'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(13): message : see declaration of 'ParticleSystemEmitter'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(189,103): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(462,58): warning C4305: 'argument': truncation from 'int' to 'float'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(469,62): warning C4305: 'argument': truncation from 'int' to 'float'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(476,57): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(207,103): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(473,58): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(480,62): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(487,57): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(513,59): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(520,63): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(527,58): warning C4305: 'argument': truncation from 'int' to 'float'
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xutility(238,77): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
           with
           [
@@ -54,88 +42,35 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.3162
               _Ty=LONG
           ]
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(70): message : see reference to function template instantiation 'std::shared_ptr<GBuffer> std::make_shared<GBuffer,LONG,LONG>(LONG &&,LONG &&)' being compiled
+  Light.cpp
   LightAssetHandler.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\LightAssetHandler.cpp(28,113): warning C4244: 'argument': conversion from 'const T' to 'size_t', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\LightAssetHandler.cpp(28,99): warning C4244: 'argument': conversion from 'const T' to 'size_t', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Model.cpp
+  ModelAssetHandler.cpp
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ModelAssetHandler.cpp(650,36): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  ModelInstance.cpp
   ParticleAssetHandler.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(14,1): warning C4099: 'ParticleSystemEmitter': type name first seen using 'class' now seen using 'struct'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(13): message : see declaration of 'ParticleSystemEmitter'
   ParticleEmitter.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleEmitter.cpp(131,29): warning C4018: '<': signed/unsigned mismatch
   ParticleSystem.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(14,1): warning C4099: 'ParticleSystemEmitter': type name first seen using 'class' now seen using 'struct'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(13): message : see declaration of 'ParticleSystemEmitter'
   PointLight.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+  Scene.cpp
+  SceneObject.cpp
+  ShadowRenderer.cpp
   SpotLight.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(60,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(90,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(127,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector4.hpp(135,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(58,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(82,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(113,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector2.hpp(121,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(61,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(88,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(122,3): warning C4002: too many arguments for function-like macro invocation 'assert'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Math\Matrix\Vector3.hpp(130,3): warning C4002: too many arguments for function-like macro invocation 'assert'
+  Transform.cpp
   Generating Code...
   GraphicsEngine.vcxproj -> C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Lib\Debug\GraphicsEngine.lib

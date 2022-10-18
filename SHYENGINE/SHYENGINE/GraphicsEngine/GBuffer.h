@@ -26,6 +26,7 @@ public:
 	void SetAsResource(unsigned int aStartSlot) const;
 	void ClearResource(unsigned int aStartSlot) const;
 	void Clear() const;
+	ComPtr<ID3D11RenderTargetView> GBufferRTV;
 
 private:
 	std::array<ComPtr<ID3D11RenderTargetView>,

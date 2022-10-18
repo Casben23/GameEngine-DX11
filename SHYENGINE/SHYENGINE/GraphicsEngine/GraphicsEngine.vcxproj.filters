@@ -165,6 +165,12 @@
     <ClInclude Include="SpotLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DepthStencil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GraphicsEngine.pch.cpp">
@@ -278,6 +284,12 @@
     <ClCompile Include="SpotLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DepthStencil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\Temporary\DefaultPS.cso">
@@ -293,10 +305,11 @@
     <None Include="ImGUI\.editorconfig" />
     <None Include="ImGUI\.gitattributes" />
     <None Include="ImGUI\.gitignore" />
-    <None Include="Shaders\PBRFunctions.hlsli" />
     <None Include="Shaders\Common.hlsli" />
     <None Include="ImGUI\misc\debuggers\imgui.gdb" />
     <None Include="ImGUI\misc\debuggers\imgui.natstepfilter" />
+    <None Include="Shaders\LightBuffer.hlsli" />
+    <None Include="Shaders\PBRFunctions.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShader.hlsl" />

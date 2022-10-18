@@ -1,5 +1,6 @@
 #pragma once
 #include "Light.h"
+#include "SceneObject.h"
 class PointLight : public Light
 {
 	friend class LightAssetHandler;

@@ -1,5 +1,6 @@
 #include "GraphicsEngine.pch.h"
 #include "DX11.h"
+#include <float.h>
 
 ComPtr<ID3D11Device> DX11::myDevice;
 ComPtr<ID3D11DeviceContext> DX11::myContext;
@@ -107,14 +108,29 @@ bool DX11::Initialize(HWND aWindowHandle, bool enableDeviceDebug)
 	samplerDesc.MipLODBias = 0.0f;
 	samplerDesc.MaxAnisotropy = 1;
 	samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-	samplerDesc.BorderColor[0] = 1.0f;
-	samplerDesc.BorderColor[1] = 1.0f;
-	samplerDesc.BorderColor[2] = 1.0f;
-	samplerDesc.BorderColor[3] = 1.0f;
-	samplerDesc.MinLOD = -D3D11_FLOAT32_MAX;
+	samplerDesc.BorderColor[0] = 0;
+	samplerDesc.BorderColor[1] = 0;
+	samplerDesc.BorderColor[2] = 0;
+	samplerDesc.BorderColor[3] = 0;
+	samplerDesc.MinLOD = 0;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 	result = myDevice->CreateSamplerState(&samplerDesc, mySamplerStateDefault.GetAddressOf());
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	D3D11_SAMPLER_DESC pointSampleDesc = {};
+	pointSampleDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	pointSampleDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	pointSampleDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	pointSampleDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	pointSampleDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	pointSampleDesc.MinLOD = -FLT_MAX;
+	pointSampleDesc.MaxLOD = FLT_MAX;
+
+	result = DX11::myDevice->CreateSamplerState(&pointSampleDesc, &mySamplerStateDefault);
 	if (FAILED(result))
 	{
 		return false;
