@@ -8,7 +8,7 @@ void DirectionalLight::ClearShadowMap()
 
 void DirectionalLight::SetShadowMapAsDepth()
 {
-	
+
 }
 
 void DirectionalLight::SetShadowMapAsResource(int aSlot)

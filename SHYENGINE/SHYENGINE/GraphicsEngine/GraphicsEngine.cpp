@@ -58,6 +58,22 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	f >> data;
 	myClearColor = { data["Color"]["r"], data["Color"]["g"], data["Color"]["b"], data["Color"]["a"] };
 
+	nlohmann::json presetData;
+	std::ifstream stream("EngineSettings/Presets.json");
+	stream >> presetData;
+
+	myBlendColorPreset.interpolateValue = presetData["Presets"]["Blend"]["Interpolate"];
+
+	myBlendColorPreset.firstColor.x = presetData["Presets"]["Blend"]["FirstColor"]["r"];
+	myBlendColorPreset.firstColor.y = presetData["Presets"]["Blend"]["FirstColor"]["g"];
+	myBlendColorPreset.firstColor.z = presetData["Presets"]["Blend"]["FirstColor"]["b"];
+	myBlendColorPreset.firstColor.w = presetData["Presets"]["Blend"]["FirstColor"]["a"];
+
+	myBlendColorPreset.secondColor.x = presetData["Presets"]["Blend"]["SecondColor"]["r"];
+	myBlendColorPreset.secondColor.y = presetData["Presets"]["Blend"]["SecondColor"]["g"];
+	myBlendColorPreset.secondColor.z = presetData["Presets"]["Blend"]["SecondColor"]["b"];
+	myBlendColorPreset.secondColor.w = presetData["Presets"]["Blend"]["SecondColor"]["a"];
+
 
 	myModelAssetHandler.Initialize();
 	myScene->SetCamera(myCamera);
@@ -83,7 +99,7 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 		cube->SetName("Cube");
 		myScene->AddGameObject(cube);
 		cube->GetTransform().SetPosition(100, -200, 100);
-		cube->GetTransform().SetScale(100,100,100);
+		cube->GetTransform().SetScale(100, 100, 100);
 	}
 
 	if (myModelAssetHandler.LoadModel("gremlin_sk.fbx", "gremlin@walk.fbx"))
@@ -101,7 +117,7 @@ bool GraphicsEngine::Initialize(unsigned someX, unsigned someY,
 	myDirectionalLight = LightAssetHandler::CreateDirectionalLight(color, 0.5f, dir);
 	myEnvironmentLight = LightAssetHandler::CreateEnvironmentLight(L"skansen_cubemap.dds");
 	myPointLight = LightAssetHandler::CreatePointLight({ 255,0,0 }, 1000, 100, { 0,50,0 });
-	mySpotLight = LightAssetHandler::CreateSpotLight({ 0,255,0 }, 1000, 10000, 100, 1000, {0,50,0});
+	mySpotLight = LightAssetHandler::CreateSpotLight({ 0,255,0 }, 1000, 10000, 100, 1000, { 0,50,0 });
 	myScene->AddLight(myPointLight);
 	myScene->AddLight(mySpotLight);
 	if (!myForwardRenderer.Initialize())
@@ -206,7 +222,7 @@ void GraphicsEngine::RenderFrame()
 
 		myDeferredRenderer.GenerateGBuffer(camera, modelToRender, Timer::GetDeltaTime(), Timer::GetTotalTime());
 		myShadowRenderer.Render(myDirectionalLight, modelToRender);
-		
+
 		const std::vector<std::shared_ptr<Light>> lights = myScene->GetLights();
 		myDirectionalLight->ClearShadowMap();
 		myDirectionalLight->SetShadowMapAsDepth();
@@ -260,89 +276,109 @@ void GraphicsEngine::BlendColor()
 {
 	ImGui::Begin("Color Blending");
 
-	if (ImGui::Button("Create New Blend"))
-	{
-		ColorBlendPreset colorBlend;
-		colorBlend.name = "Blend" + std::to_string(myBlendColorPresets.size());
-		myBlendColorPresets.push_back(colorBlend);
-	}
+	static int selected1 = -1;
+	static int selected2 = -1;
 
-	static int selected = -1;
-
-	if (ImGui::TreeNode("Blends"))
+	if (ImGui::TreeNode("Presets1"))
 	{
-		for (int n = 0; n < myBlendColorPresets.size(); n++)
+		for (int n = 0; n < myColorPresets.size(); n++)
 		{
 			char buf1[32];
-			sprintf_s(buf1, myBlendColorPresets[n].name.c_str(), n);
-			if (ImGui::Selectable(buf1, selected == n))
-				selected = n;
+			sprintf_s(buf1, myColorPresets[n].name.c_str(), n);
+			if (ImGui::Selectable(buf1, selected1 == n))
+				selected1 = n;
 		}
 		ImGui::TreePop();
 	}
 
-	if (selected != -1)
+	if (ImGui::TreeNode("Presets2"))
 	{
-		float color1[3] = {myBlendColorPresets[selected].firstColor.x, myBlendColorPresets[selected].firstColor.y, myBlendColorPresets[selected].firstColor.z };
-		float color2[3] = {myBlendColorPresets[selected].secondColor.x, myBlendColorPresets[selected].secondColor.y, myBlendColorPresets[selected].secondColor.z };
-		ImGui::ColorEdit3("First Color", color1);
-		ImGui::ColorEdit3("Second Color", color2);
-		ImGui::SliderFloat("Blend Value", &myBlendColorPresets[selected].interpolateValue, 0, 1);
+		for (int n = 0; n < myColorPresets.size(); n++)
+		{
+			char buf1[32];
+			sprintf_s(buf1, myColorPresets[n].name.c_str(), n);
+			if (ImGui::Selectable(buf1, selected2 == n))
+				selected2 = n;
+		}
+		ImGui::TreePop();
+	}
 
-		myBlendColorPresets[selected].firstColor = { color1[0], color1[1], color1[2], 1 };
-		myBlendColorPresets[selected].secondColor = { color2[0], color2[1], color2[2], 1 };
+	if (selected1 != -1 && selected2 != -1)
+	{
+		float color1[3] = { myColorPresets[selected1].color.x, myColorPresets[selected1].color.y, myColorPresets[selected1].color.z };
+		float color2[3] = { myColorPresets[selected2].color.x,  myColorPresets[selected2].color.y,  myColorPresets[selected2].color.z };
+		ImGui::SliderFloat("Blend Value", &myBlendColorPreset.interpolateValue, 0, 1);
+
+		myBlendColorPreset.firstColor = { color1[0], color1[1], color1[2], 1 };
+		myBlendColorPreset.secondColor = { color2[0], color2[1], color2[2], 1 };
+	}
+	else
+	{
+		float color1[3] = { myBlendColorPreset.firstColor.x,myBlendColorPreset.firstColor.y, myBlendColorPreset.firstColor.z };
+		float color2[3] = { myBlendColorPreset.secondColor.x,myBlendColorPreset.secondColor.y, myBlendColorPreset.secondColor.z };
+		ImGui::SliderFloat("Blend Value", &myBlendColorPreset.interpolateValue, 0, 1);
 	}
 
 
 	Vector3f blendColor;
-	if (selected != -1)
-	{
-		blendColor = { Lerp(myBlendColorPresets[selected].firstColor.x, myBlendColorPresets[selected].secondColor.x, myBlendColorPresets[selected].interpolateValue),
-					   Lerp(myBlendColorPresets[selected].firstColor.y, myBlendColorPresets[selected].secondColor.y, myBlendColorPresets[selected].interpolateValue),
-					   Lerp(myBlendColorPresets[selected].firstColor.z, myBlendColorPresets[selected].secondColor.z, myBlendColorPresets[selected].interpolateValue) };
-	}
+
+	blendColor = { Lerp(myBlendColorPreset.firstColor.x, myBlendColorPreset.secondColor.x, myBlendColorPreset.interpolateValue),
+				   Lerp(myBlendColorPreset.firstColor.y, myBlendColorPreset.secondColor.y, myBlendColorPreset.interpolateValue),
+				   Lerp(myBlendColorPreset.firstColor.z, myBlendColorPreset.secondColor.z, myBlendColorPreset.interpolateValue) };
+
 	ImGui::ColorButton("Blended Color", { blendColor.x, blendColor.y, blendColor.z, 1 }, 0, { 100,100 });
 
-	//if (ImGui::Button("Save Blended Color Preset"))
-	//{
-	//	ColorBlendPreset blendPreset;
+	if (ImGui::Button("Save Blended Color Preset"))
+	{
+		if (myPresetName.empty())
+		{
+			myBlendColorPreset.name = "Preset" + std::to_string(myColorPresets.size()) + " (blend)";
+			nlohmann::json file;
+			std::ifstream filestream("EngineSettings/Presets.json");
 
-	//	if (myPresetName.empty())
-	//	{
-	//		blendPreset.name = "Preset" + std::to_string(myColorPresets.size()) + " (blend)";
-	//		nlohmann::json file;
-	//		std::ifstream filestream("EngineSettings/Presets.json");
+			filestream >> file;
 
-	//		filestream >> file;
+			file["Presets"]["Blend"]["FirstColor"]["r"] = myBlendColorPreset.firstColor.x;
+			file["Presets"]["Blend"]["FirstColor"]["g"] = myBlendColorPreset.firstColor.y;
+			file["Presets"]["Blend"]["FirstColor"]["b"] = myBlendColorPreset.firstColor.z;
+			file["Presets"]["Blend"]["FirstColor"]["a"] = myBlendColorPreset.firstColor.w;
 
-	//		file["Presets"][blendPreset.name]["r"] = myClearColor[0];
-	//		file["Presets"][blendPreset.name]["g"] = myClearColor[1];
-	//		file["Presets"][blendPreset.name]["b"] = myClearColor[2];
-	//		file["Presets"][blendPreset.name]["a"] = myClearColor[3];
+			file["Presets"]["Blend"]["SecondColor"]["r"] = myBlendColorPreset.secondColor.x;
+			file["Presets"]["Blend"]["SecondColor"]["g"] = myBlendColorPreset.secondColor.y;
+			file["Presets"]["Blend"]["SecondColor"]["b"] = myBlendColorPreset.secondColor.z;
+			file["Presets"]["Blend"]["SecondColor"]["a"] = myBlendColorPreset.secondColor.w;
 
-	//		std::ofstream s("EngineSettings/Presets.json");
-	//		s << file;
-	//	}
-	//	else
-	//	{
-	//		blendPreset.name = myPresetName;
+			file["Presets"]["Blend"]["Interpolate"] = myBlendColorPreset.interpolateValue;
 
-	//		nlohmann::json file;
-	//		std::ifstream filestream("EngineSettings/Presets.json");
+			std::ofstream s("EngineSettings/Presets.json");
+			s << file;
+		}
+		else
+		{
+			myPresetName = myPresetName;
 
-	//		filestream >> file;
+			nlohmann::json file;
+			std::ifstream filestream("EngineSettings/Presets.json");
 
-	//		file["Presets"][blendPreset.name]["r"] = myClearColor[0];
-	//		file["Presets"][blendPreset.name]["g"] = myClearColor[1];
-	//		file["Presets"][blendPreset.name]["b"] = myClearColor[2];
-	//		file["Presets"][blendPreset.name]["a"] = myClearColor[3];
+			filestream >> file;
 
-	//		std::ofstream s("EngineSettings/Presets.json");
-	//		s << file;
-	//	}
-	//	myPresetName = "";
-	//	myBlendColorPresets.push_back(blendPreset);
-	//}
+			file["Presets"]["Blend"]["FirstColor"]["r"] = myBlendColorPreset.firstColor.x;
+			file["Presets"]["Blend"]["FirstColor"]["g"] = myBlendColorPreset.firstColor.y;
+			file["Presets"]["Blend"]["FirstColor"]["b"] = myBlendColorPreset.firstColor.z;
+			file["Presets"]["Blend"]["FirstColor"]["a"] = myBlendColorPreset.firstColor.w;
+
+			file["Presets"]["Blend"]["SecondColor"]["r"] = myBlendColorPreset.secondColor.x;
+			file["Presets"]["Blend"]["SecondColor"]["g"] = myBlendColorPreset.secondColor.y;
+			file["Presets"]["Blend"]["SecondColor"]["b"] = myBlendColorPreset.secondColor.z;
+			file["Presets"]["Blend"]["SecondColor"]["a"] = myBlendColorPreset.secondColor.w;
+
+			std::ofstream s("EngineSettings/Presets.json");
+			s << file;
+		}
+		myPresetName = "";
+	}
+	ImGui::SameLine();
+
 
 	ImGui::End();
 }

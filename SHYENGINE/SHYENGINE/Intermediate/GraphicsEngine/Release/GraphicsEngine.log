@@ -1,59 +1,20 @@
-﻿C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\EnvironmentPS.hlsl(30,29-202): warning X3206: 'EvaluateDirectionalLight': implicit truncation of vector type
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\EnvironmentPS.hlsl(45,31-183): warning X3206: 'EvaluatePointLight': implicit truncation of vector type
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\EnvironmentPS.hlsl(45,31-183): warning X3206: 'EvaluatePointLight': implicit truncation of vector type
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\EnvironmentPS.hlsl(48,30-249): warning X3206: 'EvaluateSpotLight': implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Release\EnvironmentPS.cso
-  compilation object save succeeded; see C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Release\FullscreenVS.cso
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\GBufferPS.hlsl(3,18-39): warning X3578: Output value 'main' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Release\GBufferPS.cso
-  compilation object save succeeded; see C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Release\ParticleGS.cso
-  compilation object save succeeded; see C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Release\ParticlePS.cso
-  compilation object save succeeded; see C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Release\ParticleVS.cso
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\PixelShader.hlsl(34,35-208): warning X3206: 'EvaluateDirectionalLight': implicit truncation of vector type
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\PixelShader.hlsl(49,31-192): warning X3206: 'EvaluatePointLight': implicit truncation of vector type
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\PixelShader.hlsl(52,30-253): warning X3206: 'EvaluateSpotLight': implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Release\PixelShader.cso
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Shaders\VertexShader.hlsl(4,18-37): warning X3578: Output value 'main' is not completely initialized
-  
-  compilation object save succeeded; see C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Release\VertexShader.cso
-  GraphicsEngine.pch.cpp
-  Camera.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(1): warning C4603: '_USE_MATH_DEFINES': macro is not defined or definition is different after precompiled header use
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(1): message : Add macro to precompiled header instead of defining here
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(2): message : use of precompiled header
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(15,39): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Camera.cpp(15,22): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
-  DDSTextureLoader11.cpp
-  DeferredRenderer.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\DeferredRenderer.cpp(141,26): warning C4100: 'aTotalTime': unreferenced formal parameter
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\DeferredRenderer.cpp(141,8): warning C4100: 'aDeltaTime': unreferenced formal parameter
-  DepthStencil.cpp
-  DirectionalLight.cpp
-  DX11.cpp
-  EnvironmentLight.cpp
-  ForwardRenderer.cpp
+﻿  ForwardRenderer.cpp
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(14,1): warning C4099: 'ParticleSystemEmitter': type name first seen using 'class' now seen using 'struct'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(13): message : see declaration of 'ParticleSystemEmitter'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ForwardRenderer.cpp(98,58): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
-  GBuffer.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GBuffer.cpp(8,22): warning C4244: '=': conversion from 'float' to 'UINT', possible loss of data
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GBuffer.cpp(9,23): warning C4244: '=': conversion from 'float' to 'UINT', possible loss of data
   GraphicsEngine.cpp
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(14,1): warning C4099: 'ParticleSystemEmitter': type name first seen using 'class' now seen using 'struct'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(13): message : see declaration of 'ParticleSystemEmitter'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(10,7): warning C4100: 'enableDeviceDebug': unreferenced formal parameter
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(207,103): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(255,63): warning C4100: 'aSlot': unreferenced formal parameter
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(255,51): warning C4100: 'aState': unreferenced formal parameter
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(473,58): warning C4305: 'argument': truncation from 'int' to 'float'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(480,62): warning C4305: 'argument': truncation from 'int' to 'float'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(487,57): warning C4305: 'argument': truncation from 'int' to 'float'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(513,59): warning C4305: 'argument': truncation from 'int' to 'float'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(520,63): warning C4305: 'argument': truncation from 'int' to 'float'
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(527,58): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(223,103): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(271,63): warning C4100: 'aSlot': unreferenced formal parameter
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(271,51): warning C4100: 'aState': unreferenced formal parameter
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(509,58): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(516,62): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(523,57): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(549,59): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(556,63): warning C4305: 'argument': truncation from 'int' to 'float'
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(563,58): warning C4305: 'argument': truncation from 'int' to 'float'
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xutility(238,77): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
           with
           [
@@ -74,41 +35,7 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.3162
           [
               _Ty=LONG
           ]
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(70): message : see reference to function template instantiation 'std::shared_ptr<GBuffer> std::make_shared<GBuffer,LONG,LONG>(LONG &&,LONG &&)' being compiled
-  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ImGUI\imgui_draw.cpp(195,13): warning C4189: 'colors': local variable is initialized but not referenced
-  imgui_impl_dx11.cpp
-  imgui_impl_win32.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
-  imgui_stdlib.cpp
-  binary_to_compressed_c.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ImGUI\misc\fonts\binary_to_compressed_c.cpp(23): warning C4603: '_CRT_SECURE_NO_WARNINGS': macro is not defined or definition is different after precompiled header use
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ImGUI\misc\fonts\binary_to_compressed_c.cpp(23): message : Add macro to precompiled header instead of defining here
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ImGUI\misc\fonts\binary_to_compressed_c.cpp(24): message : use of precompiled header
-  InputHandler.cpp
-  Compiling...
-  Light.cpp
-  LightAssetHandler.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\LightAssetHandler.cpp(28,113): warning C4244: 'argument': conversion from 'const T' to 'size_t', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\LightAssetHandler.cpp(28,99): warning C4244: 'argument': conversion from 'const T' to 'size_t', possible loss of data
-          with
-          [
-              T=float
-          ]
-  Material.cpp
-  Model.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Model.cpp(4,63): warning C4100: 'aPath': unreferenced formal parameter
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\Model.cpp(11,63): warning C4100: 'aPath': unreferenced formal parameter
-  ModelAssetHandler.cpp
-C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ModelAssetHandler.cpp(650,36): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  ModelInstance.cpp
+C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\GraphicsEngine.cpp(86): message : see reference to function template instantiation 'std::shared_ptr<GBuffer> std::make_shared<GBuffer,LONG,LONG>(LONG &&,LONG &&)' being compiled
   ParticleAssetHandler.cpp
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(14,1): warning C4099: 'ParticleSystemEmitter': type name first seen using 'class' now seen using 'struct'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(13): message : see declaration of 'ParticleSystemEmitter'
@@ -117,13 +44,4 @@ C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\
   ParticleSystem.cpp
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(14,1): warning C4099: 'ParticleSystemEmitter': type name first seen using 'class' now seen using 'struct'
 C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\GraphicsEngine\ParticleSystem.h(13): message : see declaration of 'ParticleSystemEmitter'
-  PointLight.cpp
-  Scene.cpp
-  SceneObject.cpp
-  ShadowRenderer.cpp
-  SpotLight.cpp
-  Texture.cpp
-  TextureAssetHandler.cpp
-  Timer.cpp
-  Transform.cpp
   GraphicsEngine.vcxproj -> C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Lib\Release\GraphicsEngine.lib

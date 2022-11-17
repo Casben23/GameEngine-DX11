@@ -1,3 +1,1 @@
-﻿  Modelviewer.cpp
-TGAFBXImporter.lib(FBXImporter.obj) : warning LNK4099: PDB 'TGAFBXImporterd.pdb' was not found with 'TGAFBXImporter.lib(FBXImporter.obj)' or at 'C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\TGAFBXImporterd.pdb'; linking object as if no debug info
-  Modelviewer.vcxproj -> C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\Modelviewer.exe
+﻿  Modelviewer.vcxproj -> C:\Users\casper.bengtsson3\Documents\GitHub\GameEngine-DX11\SHYENGINE\SHYENGINE\Bin\Debug\Modelviewer.exe

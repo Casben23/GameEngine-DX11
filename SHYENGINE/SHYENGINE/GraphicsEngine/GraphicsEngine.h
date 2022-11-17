@@ -107,7 +107,7 @@ private:
 
 	bool ShowImGUIWindow = false;
 
-	std::vector<ColorBlendPreset> myBlendColorPresets;
+	ColorBlendPreset myBlendColorPreset;
 	std::vector<ColorPreset> myColorPresets;
 	Vector3f myFirstBlendColor = { 0,0,0 };
 	Vector3f mySecondBlendColor = { 0,0,0 };
